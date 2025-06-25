@@ -16,6 +16,8 @@ const ReservaPage = () => {
   const [guests, setGuests] = useState(1);
   // Estado de carregamento
   const [loading, setLoading] = useState(true);
+  // Estado para mensagem de erro
+  const [mensagemErro, setMensagemErro] = useState("");
 
   // Hooks de autenticação
   const authUser = useAuthUser();
@@ -59,17 +61,25 @@ const ReservaPage = () => {
 
   // Função para enviar a reserva para o backend
   const handleReserva = async () => {
+    setMensagemErro(""); // Limpa mensagem anterior
     // Validação dos campos obrigatórios
     if (!checkInDate || !checkOutDate || !guests) {
-      alert('Preencha todos os campos!');
+      setMensagemErro('Preencha todos os campos!');
       return;
     }
     // Validação das datas
     if (new Date(checkInDate) >= new Date(checkOutDate)) {
-      alert('A data de início deve ser anterior à data de fim.');
+      setMensagemErro('A data de início deve ser anterior à data de fim.');
       return;
     }
-
+    // Validação: não permitir reservas no passado
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    const dataInicio = new Date(checkInDate);
+    if (dataInicio < hoje) {
+      setMensagemErro('Não é possível criar reservas no passado.');
+      return;
+    }
     try {
       // Envia a requisição de reserva
       const res = await fetch('https://hotel-brasileiro-back.onrender.com/api/reservas', {
@@ -87,8 +97,15 @@ const ReservaPage = () => {
       });
 
       if (res.ok) {
-        alert('Reserva criada com sucesso!');
-        navigate('/minhas-reservas');
+        // Salva os dados do quarto e da reserva no localStorage para a SuccessPage
+        localStorage.setItem('successRoom', JSON.stringify({
+          ...selectedRoom,
+          checkInDate,
+          checkOutDate,
+          guests,
+          preco: total.toFixed(2)
+        }));
+        navigate('/reserva/concluida');
       } else {
         const err = await res.json();
         alert(err.error || 'Erro ao criar reserva');
@@ -198,7 +215,10 @@ const ReservaPage = () => {
                   <h4>Chave aleatória</h4>
                   <code>4fc206fb-cacb-4858-8d1e-06be251bdc78</code>
                 </div>
-
+                {/* Mensagem de erro exibida acima do botão */}
+                {mensagemErro && (
+                  <div style={{ color: 'red', marginBottom: '10px', fontWeight: 'bold' }}>{mensagemErro}</div>
+                )}
                 <button className="confirm-button" onClick={handleReserva}>
                   Confirmar reserva
                 </button>
