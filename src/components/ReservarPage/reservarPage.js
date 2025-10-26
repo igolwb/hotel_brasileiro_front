@@ -1,18 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import "./ReservarPage.css";
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
+import './ReservarPage.css';
 
-const ReservaPage = () => {
+export const ReservaPage = () => {
   const { roomId } = useParams();
   const [selectedRoom, setSelectedRoom] = useState(null);
-  const [checkInDate, setCheckInDate] = useState("");
-  const [checkOutDate, setCheckOutDate] = useState("");
+  const [checkInDate, setCheckInDate] = useState('');
+  const [checkOutDate, setCheckOutDate] = useState('');
   const [guests, setGuests] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [mensagemErro, setMensagemErro] = useState("");
+  const [mensagemErro, setMensagemErro] = useState('');
 
+  const authUser = useAuthUser();
+  const authHeader = useAuthHeader();
   const navigate = useNavigate();
 
+  // Calcula o número de diárias
   const getDiarias = () => {
     if (!checkInDate || !checkOutDate) return 0;
     const dataInicio = new Date(checkInDate);
@@ -26,8 +31,17 @@ const ReservaPage = () => {
   const total =
     selectedRoom && diarias > 0 ? Number(selectedRoom.preco) * diarias : 0;
 
+  // 🔒 Redireciona se não estiver logado
   useEffect(() => {
-    fetch(`http://localhost:3000/api/quartos/${roomId}`)
+    if (!authUser) {
+      alert('Você precisa estar logado para fazer uma reserva.');
+      navigate('/login');
+    }
+  }, [authUser, navigate]);
+
+  // 🔎 Busca dados do quarto
+  useEffect(() => {
+    fetch(`https://hotel-brasileiro-back.onrender.com/api/quartos/${roomId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data) setSelectedRoom(data.data);
@@ -36,73 +50,17 @@ const ReservaPage = () => {
       .catch(() => setLoading(false));
   }, [roomId]);
 
-  const handlePaymentCheckout = async (reservationId) => {
-    try {
-      const items = [
-        {
-          name: selectedRoom.nome,
-          quantity: 1,
-          unit_amount: Math.round(total * 100),
-        },
-      ];
+  // 💳 Cria o checkout PagBank
+  const handlePaymentCheckout = async () => {
+    setMensagemErro('');
 
-      const customer = {
-        name: "Cliente Teste",
-        email: "cliente@teste.com",
-        tax_id: "12345678909",
-        phones: [
-          { country: "55", area: "11", number: "999999999", type: "MOBILE" },
-        ],
-      };
-
-      const res = await fetch(
-        "http://localhost:3000/api/payments/create-checkout",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            referenceId: `reserva_${reservationId}`,
-            customer,
-            items,
-          }),
-        }
-      );
-
-      const data = await res.json();
-
-      if (data.success && data.checkoutUrl) {
-        // ✅ Save booking info locally before redirect
-        localStorage.setItem(
-          "successRoom",
-          JSON.stringify({
-            ...selectedRoom,
-            checkInDate,
-            checkOutDate,
-            guests,
-            preco: total.toFixed(2),
-          })
-        );
-
-        window.location.href = data.checkoutUrl;
-      } else {
-        alert("Erro ao iniciar o pagamento.");
-        console.error("Checkout error:", data);
-      }
-    } catch (error) {
-      alert("Erro ao criar checkout.");
-      console.error(error);
-    }
-  };
-
-  const handleReserva = async () => {
-    setMensagemErro("");
     if (!checkInDate || !checkOutDate || !guests) {
-      setMensagemErro("Preencha todos os campos!");
+      setMensagemErro('Preencha todos os campos!');
       return;
     }
 
     if (new Date(checkInDate) >= new Date(checkOutDate)) {
-      setMensagemErro("A data de início deve ser anterior à data de fim.");
+      setMensagemErro('A data de início deve ser anterior à data de fim.');
       return;
     }
 
@@ -110,31 +68,62 @@ const ReservaPage = () => {
     hoje.setHours(0, 0, 0, 0);
     const dataInicio = new Date(checkInDate);
     if (dataInicio < hoje) {
-      setMensagemErro("Não é possível criar reservas no passado.");
+      setMensagemErro('Não é possível criar reservas no passado.');
       return;
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/reservas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          quarto_id: selectedRoom.id,
-          hospedes: guests,
-          inicio: checkInDate,
-          fim: checkOutDate,
-        }),
-      });
+      const items = [
+        {
+          name: selectedRoom.nome,
+          quantity: 1,
+          unit_amount: Math.round(total * 100), // centavos
+        },
+      ];
 
-      if (res.ok) {
-        const reservaData = await res.json();
-        await handlePaymentCheckout(reservaData.data?.id || roomId);
+      const user = authUser;
+      const customer = {
+        name: user?.nome || 'Cliente',
+        email: user?.email || 'cliente@teste.com',
+        tax_id: '12345678909',
+        phones: [
+          { country: '55', area: '11', number: '999999999', type: 'MOBILE' },
+        ],
+      };
+
+      const redirectUrls = {
+        success: `${window.location.origin}/reserva/concluida`,
+        failure: `${window.location.origin}/reserva/erro`,
+      };
+
+      const authorizationHeader = authHeader;
+      const res = await fetch(
+        'https://hotel-brasileiro-back.onrender.com/api/payments/create-checkout',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: authorizationHeader,
+          },
+          body: JSON.stringify({
+            referenceId: `reserva_${Date.now()}`,
+            customer,
+            items,
+            redirectUrls,
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.success && data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
       } else {
-        const err = await res.json();
-        alert(err.error || "Erro ao criar reserva");
+        alert('Erro ao iniciar o pagamento.');
+        console.error('Checkout error:', data);
       }
     } catch (error) {
-      alert("Erro ao criar reserva");
+      alert('Erro ao criar checkout.');
       console.error(error);
     }
   };
@@ -145,6 +134,7 @@ const ReservaPage = () => {
   return (
     <div className="reservation-container">
       <div className="reservation-steps">
+        {/* Passo 1: Datas e hóspedes */}
         <div className="step">
           <div className="step-number">1</div>
           <div className="step-content">
@@ -178,9 +168,14 @@ const ReservaPage = () => {
                 <option value={2}>2</option>
               </select>
             </div>
+            <div style={{ marginTop: '20px' }}>
+              <h3>Experiência Adicional:</h3>
+              <p style={{ fontSize: '14px', color: '#666' }}>Alvorada Secreta</p>
+            </div>
           </div>
         </div>
 
+        {/* Passo 2: Quarto selecionado */}
         <div className="step">
           <div className="step-number">2</div>
           <div className="step-content">
@@ -199,6 +194,7 @@ const ReservaPage = () => {
           </div>
         </div>
 
+        {/* Passo 3: Pagamento */}
         <div className="step">
           <div className="step-number">3</div>
           <div className="step-content">
@@ -208,11 +204,11 @@ const ReservaPage = () => {
               {checkInDate && checkOutDate && (
                 <div className="dates-summary">
                   <p>
-                    Check-in: {new Date(checkInDate).toLocaleDateString("pt-BR")}
+                    Check-in: {new Date(checkInDate).toLocaleDateString('pt-BR')}
                   </p>
                   <p>
-                    Check-out:{" "}
-                    {new Date(checkOutDate).toLocaleDateString("pt-BR")}
+                    Check-out:{' '}
+                    {new Date(checkOutDate).toLocaleDateString('pt-BR')}
                   </p>
                   <p>Hóspedes: {guests}</p>
                   <p>Diárias: {diarias}</p>
@@ -222,13 +218,23 @@ const ReservaPage = () => {
                 <h2>Investimento Total: R$ {total.toFixed(2)}</h2>
               </div>
               <div className="payment-section">
+                <h3>Pagamento</h3>
                 {mensagemErro && (
-                  <div style={{ color: "red", marginBottom: "10px" }}>
+                  <div
+                    style={{
+                      color: 'red',
+                      marginBottom: '10px',
+                      fontWeight: 'bold',
+                    }}
+                  >
                     {mensagemErro}
                   </div>
                 )}
-                <button className="confirm-button" onClick={handleReserva}>
-                  Confirmar reserva e pagar
+                <button
+                  className="confirm-button"
+                  onClick={handlePaymentCheckout}
+                >
+                  Prosseguir para o Pagamento
                 </button>
               </div>
             </div>
@@ -240,3 +246,4 @@ const ReservaPage = () => {
 };
 
 export default ReservaPage;
+
