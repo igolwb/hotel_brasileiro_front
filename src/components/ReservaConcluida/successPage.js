@@ -1,156 +1,53 @@
-import React, { useState, useEffect, useCallback } from "react";
-import "./successPage.css";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
-const SuccessPage = ({ selectedRoom, paymentReferenceId }) => {
-  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
+const SuccessPage = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const paymentReferenceId = queryParams.get("ref");
 
-  // Ensure `room` is properly initialized
-  let room = selectedRoom;
-  if (!room) {
-    try {
-      const stored = localStorage.getItem("successRoom");
-      if (stored) {
-        room = JSON.parse(stored);
-      }
-    } catch (e) {
-      room = null;
-    }
-  }
+  const [paymentStatus, setPaymentStatus] = useState(null);
+  const [roomData, setRoomData] = useState(null);
 
-  // Function to verify payment status
-  const verifyPaymentStatus = useCallback(async () => {
-    try {
-      const response = await fetch(
-        `https://hotel-brasileiro-back.onrender.com/api/payments/status/${paymentReferenceId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        }
-      );
+  useEffect(() => {
+    const savedRoom = localStorage.getItem("successRoom");
+    if (savedRoom) setRoomData(JSON.parse(savedRoom));
+  }, []);
 
-      if (response.ok) {
-        const data = await response.json();
-        setPaymentConfirmed(data.success && data.status === "CONFIRMED");
-      } else {
-        console.error("Failed to verify payment status");
-      }
-    } catch (error) {
-      console.error("Error verifying payment status:", error);
-    }
+  useEffect(() => {
+    if (!paymentReferenceId) return;
+
+    fetch(
+      `https://hotel-brasileiro-back.onrender.com/api/payments/status/${paymentReferenceId}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setPaymentStatus(data);
+      })
+      .catch((err) => console.error("Error fetching payment status:", err));
   }, [paymentReferenceId]);
 
-  // Function to create a reservation in the database
-  const createReservation = useCallback(async () => {
-    if (!room || !paymentConfirmed) {
-      console.warn("Missing reservation data or payment not confirmed.");
-      return;
-    }
-
-    try {
-      const response = await fetch("https://hotel-brasileiro-back.onrender.com/api/reservas", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-        body: JSON.stringify({
-          quarto_id: room.id,
-          hospedes: room.guests,
-          inicio: room.checkInDate,
-          fim: room.checkOutDate,
-        }),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        console.error("Failed to create reservation:", error);
-        alert("Failed to create reservation. Please try again later.");
-      }
-    } catch (error) {
-      console.error("Error creating reservation:", error);
-      alert("An error occurred while creating the reservation. Please try again later.");
-    }
-  }, [room, paymentConfirmed]);
-
-  useEffect(() => {
-    verifyPaymentStatus();
-  }, [verifyPaymentStatus]);
-
-  useEffect(() => {
-    if (paymentConfirmed) {
-      createReservation();
-    }
-  }, [paymentConfirmed, createReservation]);
-
-  // Add debugging logs to trace variables
-  useEffect(() => {
-    console.log("Payment Reference ID:", paymentReferenceId);
-    console.log("Room Data:", room);
-  }, [paymentReferenceId, room]);
-
-  // Add log to verify payment confirmation
-  useEffect(() => {
-    console.log("Payment Confirmed:", paymentConfirmed);
-  }, [paymentConfirmed]);
-
-  if (!room) {
-    return (
-      <div className="success-container">
-        <h1 className="success-title">Reserva não encontrada</h1>
-        <Link to="/" className="back-button">
-          Voltar para o início
-        </Link>
-      </div>
-    );
-  }
-
-  // Compatibilidade: aceita tanto 'imagem' quanto 'imagem_url'
-  const imagem = room.imagem || room.imagem_url;
-  const nome = room.nome || "Quarto";
-  const descricao = room.descricao || "";
-  const caracteristicas = room.caracteristicas || [];
-  const preco = room.preco || room.preco_total || "";
-
   return (
-    <div className="success-container">
-      <h1 className="success-title">Quarto reservado com sucesso</h1>
-      <div className="success-content">
-        <div className="room-cardb">
-          <img
-            src={imagem}
-            alt={nome}
-            className="room-image"
-          />
-          <div className="room-infob">
-            <h3>{nome}</h3>
-            <p className="room-desc">{descricao}</p>
-            {caracteristicas.length > 0 && (
-              <ul className="room-features">
-                {caracteristicas.map((item, idx) => (
-                  <li key={idx}>{item}</li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
-        <div className="success-summary">
-          <h2>Total</h2>
-          <p className="success-price">
-            Investimento Total: R$ {preco}
+    <div style={{ padding: "40px", textAlign: "center" }}>
+      <h1>Reserva concluída!</h1>
+      {roomData && (
+        <>
+          <h2>{roomData.nome}</h2>
+          <p>
+            De {new Date(roomData.checkInDate).toLocaleDateString("pt-BR")} até{" "}
+            {new Date(roomData.checkOutDate).toLocaleDateString("pt-BR")}
           </p>
-          <p className="success-message">
-            A lua já sabe que você vem.
-            <br />
-            Prepare-se para um banho de estrelas.
-          </p>
-          <Link to="/" className="back-button">
-            Voltar para o início
-          </Link>
-        </div>
-      </div>
+          <p>Total pago: R$ {roomData.preco}</p>
+        </>
+      )}
+      {paymentStatus ? (
+        <p>
+          Status do pagamento:{" "}
+          <strong>{paymentStatus.results?.[0]?.status || "Desconhecido"}</strong>
+        </p>
+      ) : (
+        <p>Verificando status do pagamento...</p>
+      )}
     </div>
   );
 };
