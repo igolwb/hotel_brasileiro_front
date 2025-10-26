@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
 import "./successPage.css";
+import { Link } from "react-router-dom";
 
+const SuccessPage = ({ selectedRoom, paymentReferenceId }) => {
+  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
 
-const SuccessPage = ({ selectedRoom }) => {
-  // Se selectedRoom não for passado via props, tenta recuperar do localStorage
+  // Ensure `room` is properly initialized
   let room = selectedRoom;
   if (!room) {
     try {
@@ -16,12 +18,87 @@ const SuccessPage = ({ selectedRoom }) => {
     }
   }
 
+  // Function to verify payment status
+  const verifyPaymentStatus = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `https://hotel-brasileiro-back.onrender.com/api/payments/status/${paymentReferenceId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setPaymentConfirmed(data.success && data.status === "CONFIRMED");
+      } else {
+        console.error("Failed to verify payment status");
+      }
+    } catch (error) {
+      console.error("Error verifying payment status:", error);
+    }
+  }, [paymentReferenceId]);
+
+  // Function to create a reservation in the database
+  const createReservation = useCallback(async () => {
+    if (!room || !paymentConfirmed) {
+      console.warn("Missing reservation data or payment not confirmed.");
+      return;
+    }
+
+    try {
+      const response = await fetch("https://hotel-brasileiro-back.onrender.com/api/reservas", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+        body: JSON.stringify({
+          quarto_id: room.id,
+          hospedes: room.guests,
+          inicio: room.checkInDate,
+          fim: room.checkOutDate,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error("Failed to create reservation:", error);
+        alert("Failed to create reservation. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error creating reservation:", error);
+      alert("An error occurred while creating the reservation. Please try again later.");
+    }
+  }, [room, paymentConfirmed]);
+
+  useEffect(() => {
+    verifyPaymentStatus();
+  }, [verifyPaymentStatus]);
+
+  useEffect(() => {
+    if (paymentConfirmed) {
+      createReservation();
+    }
+  }, [paymentConfirmed, createReservation]);
+
+  // Add debugging logs to trace variables
+  useEffect(() => {
+    console.log("Payment Reference ID:", paymentReferenceId);
+    console.log("Room Data:", room);
+  }, [paymentReferenceId, room]);
+
+  // Add log to verify payment confirmation
+  useEffect(() => {
+    console.log("Payment Confirmed:", paymentConfirmed);
+  }, [paymentConfirmed]);
+
   if (!room) {
     return (
-      <div
-        className="success-container"
-
-      >
+      <div className="success-container">
         <h1 className="success-title">Reserva não encontrada</h1>
         <Link to="/" className="back-button">
           Voltar para o início
@@ -38,9 +115,7 @@ const SuccessPage = ({ selectedRoom }) => {
   const preco = room.preco || room.preco_total || "";
 
   return (
-    <div
-      className="success-container"
-    >
+    <div className="success-container">
       <h1 className="success-title">Quarto reservado com sucesso</h1>
       <div className="success-content">
         <div className="room-cardb">
