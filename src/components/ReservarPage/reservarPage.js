@@ -73,6 +73,30 @@ export const ReservaPage = () => {
     }
 
     try {
+      // Step 1: Create reservation in the database
+      const res = await fetch('https://test-back-7vih.onrender.com/api/reservas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: authHeader,
+        },
+        body: JSON.stringify({
+          quarto_id: selectedRoom.id,
+          hospedes: guests,
+          inicio: checkInDate,
+          fim: checkOutDate,
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.error || 'Erro ao criar reserva');
+        return;
+      }
+
+      const reservaData = await res.json();
+
+      // Step 2: Proceed to payment checkout
       const items = [
         {
           name: selectedRoom.nome,
@@ -96,17 +120,16 @@ export const ReservaPage = () => {
         failure: `${window.location.origin}/reserva/erro`,
       };
 
-      const authorizationHeader = authHeader;
-      const res = await fetch(
+      const paymentRes = await fetch(
         'https://test-back-7vih.onrender.com/api/payments/create-checkout',
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: authorizationHeader,
+            Authorization: authHeader,
           },
           body: JSON.stringify({
-            referenceId: `reserva_${Date.now()}`,
+            referenceId: `reserva_${reservaData.data?.id || roomId}`,
             customer,
             items,
             redirectUrls,
@@ -114,16 +137,16 @@ export const ReservaPage = () => {
         }
       );
 
-      const data = await res.json();
+      const paymentData = await paymentRes.json();
 
-      if (data.success && data.checkoutUrl) {
-        window.location.href = data.checkoutUrl;
+      if (paymentData.success && paymentData.checkoutUrl) {
+        window.location.href = paymentData.checkoutUrl;
       } else {
         alert('Erro ao iniciar o pagamento.');
-        console.error('Checkout error:', data);
+        console.error('Checkout error:', paymentData);
       }
     } catch (error) {
-      alert('Erro ao criar checkout.');
+      alert('Erro ao criar reserva ou checkout.');
       console.error(error);
     }
   };
@@ -246,5 +269,4 @@ export const ReservaPage = () => {
 };
 
 export default ReservaPage;
-
 
