@@ -41,7 +41,7 @@ export const ReservaPage = () => {
 
   // 🔎 Busca dados do quarto
   useEffect(() => {
-    fetch(`https://hotel-brasileiro-back.onrender.com/api/quartos/${roomId}`)
+    fetch(`https://https://test-back-7vih.onrender.com/api/quartos/${roomId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data) setSelectedRoom(data.data);
@@ -98,7 +98,7 @@ export const ReservaPage = () => {
 
       const authorizationHeader = authHeader;
       const res = await fetch(
-        'https://hotel-brasileiro-back.onrender.com/api/payments/create-checkout',
+        'https://test-back-7vih.onrender.com/api/payments/create-checkout',
         {
           method: 'POST',
           headers: {
