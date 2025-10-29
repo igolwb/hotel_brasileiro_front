@@ -24,7 +24,7 @@ function LoginPage() {
     e.preventDefault();
     setErrorMsg('');
     try {
-      const response = await axios.post('https://test-back-7vih.onrender.com//api/login', { email, senha });
+      const response = await axios.post('https://test-back-7vih.onrender.com/api/login', { email, senha });
       if (response.data.success) {
         const ok = signIn({
           auth: {

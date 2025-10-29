@@ -18,7 +18,7 @@ const SuccessPage = () => {
     if (!paymentReferenceId) return;
 
     fetch(
-      `https://test-back-7vih.onrender.com//api/payments/status/${paymentReferenceId}`
+      `https://test-back-7vih.onrender.com/api/payments/status/${paymentReferenceId}`
     )
       .then((res) => res.json())
       .then((data) => {

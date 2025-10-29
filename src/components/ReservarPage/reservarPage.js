@@ -39,7 +39,7 @@ const ReservaPage = () => {
 
   // Fetch room data
   useEffect(() => {
-    fetch(`https://test-back-7vih.onrender.com//api/quartos/${roomId}`)
+    fetch(`https://test-back-7vih.onrender.com/api/quartos/${roomId}`)
       .then(res => res.json())
       .then(data => {
         if (data.success && data.data) setSelectedRoom(data.data);
@@ -71,7 +71,7 @@ const handlePaymentCheckout = async () => {
   }
 
   try {
-    const response = await fetch('https://test-back-7vih.onrender.com//api/reservas/criar-e-pagar', {
+    const response = await fetch('https://test-back-7vih.onrender.com/api/reservas/criar-e-pagar', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

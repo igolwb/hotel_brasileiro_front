@@ -50,7 +50,7 @@ const ReservaPage = () => {
 
   // Busca os dados do quarto selecionado ao carregar a página
   useEffect(() => {
-    fetch(`https://test-back-7vih.onrender.com//api/quartos/${roomId}`)
+    fetch(`https://test-back-7vih.onrender.com/api/quartos/${roomId}`)
       .then(res => res.json())
       .then(data => {
         if (data.success && data.data) setSelectedRoom(data.data);
@@ -82,7 +82,7 @@ const ReservaPage = () => {
     }
     try {
       // Envia a requisição de reserva
-      const res = await fetch('https://test-back-7vih.onrender.com//api/reservas', {
+      const res = await fetch('https://test-back-7vih.onrender.com/api/reservas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
