@@ -63,7 +63,7 @@ const HomePage = () => {
 
   // Busca os quartos do backend ao carregar a página
   useEffect(() => {
-    fetch('https://hotel-brasileiro-back.onrender.com/api/quartos')
+    fetch('https://test-back-7vih.onrender.com//api/quartos')
       .then(res => res.json())
       .then(data => {
         if (data.success && data.data) setRooms(data.data);

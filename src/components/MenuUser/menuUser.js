@@ -26,7 +26,7 @@ function MinhasReservas() {
 
   useEffect(() => {
     // Buscar reservas
-    fetch('https://hotel-brasileiro-back.onrender.com/api/reservas/minhas-reservas', {
+    fetch('https://test-back-7vih.onrender.com//api/reservas/minhas-reservas', {
       headers: {
         Authorization: authHeader
       }
@@ -35,7 +35,7 @@ function MinhasReservas() {
       .then(data => setReservas(data));
 
     // Buscar nome e foto do usuário autenticado
-    fetch('https://hotel-brasileiro-back.onrender.com/api/clientes/me', {
+    fetch('https://test-back-7vih.onrender.com//api/clientes/me', {
       headers: {
         Authorization: authHeader
       }
@@ -45,7 +45,7 @@ function MinhasReservas() {
         if (data && data.success && data.data) {
           setUserNome(data.data.nome || 'Usuário');
           if (data.data.ft_perfil) {
-            setProfilePicUrl(`https://hotel-brasileiro-back.onrender.com/${data.data.ft_perfil}`);
+            setProfilePicUrl(`https://test-back-7vih.onrender.com//${data.data.ft_perfil}`);
           } else {
             setProfilePicUrl(user);
           }
@@ -85,7 +85,7 @@ function MinhasReservas() {
 
   async function confirmarExclusao() {
     if (reservaSelecionada) {
-      await fetch(`https://hotel-brasileiro-back.onrender.com/api/reservas/${reservaSelecionada.reserva_id}`, {
+      await fetch(`https://test-back-7vih.onrender.com//api/reservas/${reservaSelecionada.reserva_id}`, {
         method: 'DELETE',
         headers: {
           Authorization: authHeader
@@ -103,7 +103,7 @@ function MinhasReservas() {
       return;
     }
     try {
-      const response = await fetch(`https://hotel-brasileiro-back.onrender.com/api/clientes/${userId}`, {
+      const response = await fetch(`https://test-back-7vih.onrender.com//api/clientes/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ function MinhasReservas() {
       if (profilePicFile && userId) {
         const formData = new FormData();
         formData.append('ft_perfil', profilePicFile);
-        await fetch(`https://hotel-brasileiro-back.onrender.com/api/clientes/${userId}/ft_perfil`, {
+        await fetch(`https://test-back-7vih.onrender.com//api/clientes/${userId}/ft_perfil`, {
           method: 'PUT',
           headers: {
             Authorization: authHeader
