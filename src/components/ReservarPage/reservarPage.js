@@ -41,7 +41,7 @@ export const ReservaPage = () => {
 
   // 🔎 Busca dados do quarto
   useEffect(() => {
-    fetch(`https://https://test-back-7vih.onrender.com/api/quartos/${roomId}`)
+    fetch(`https://test-back-7vih.onrender.com/api/quartos/${roomId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data) setSelectedRoom(data.data);
@@ -246,3 +246,5 @@ export const ReservaPage = () => {
 };
 
 export default ReservaPage;
+
+
