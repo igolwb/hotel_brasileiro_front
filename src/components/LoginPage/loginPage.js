@@ -97,13 +97,14 @@ function LoginPage() {
       {showPassword ? "Ocultar" : "Mostrar"}
     </button>
   </div>
-          <Link className="hint" to="/cadastro" onClick={() => navigate('/cadastro')}>
-            Crie sua conta e desvende o hotel
+          <Link className="hint" to="/recuperar-senha" onClick={() => navigate('/recuperar-senha')}>
+            esqueceu a sua senha?
           </Link>
           {errorMsg && (
             <div style={{ color: 'red', fontSize: '0.95rem', marginBottom: '8px', textAlign: 'center' }}>{errorMsg}</div>
           )}
           <button type="submit">Desbloquear estadia</button>
+          <button type="button" onClick={() => navigate('/cadastro')}>fazer cadastro</button>
           <div className="back-home">
             <p>Volte para o início</p>
             <img className="home-icon" src={homeimg} alt="Home" onClick={() => navigate('/')} />

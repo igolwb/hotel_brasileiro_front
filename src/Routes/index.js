@@ -13,6 +13,9 @@ import AddReserva from '../components/AdminPages/EditarReserva/addReserva.js';
 import MinhasReservas from '../components/MenuUser/menuUser.js';
 import SuccessPage from '../components/ReservaConcluida/successPage.js';
 import ReservaGraphs from '../components/AdminPages/ReservaGraphs/reservaGraphs.js';
+import RecuperarSenha from '../components/pwchangeFlow/recuperarSenha.js';
+import EmailCode from '../components/pwchangeFlow/emailcode.js';
+import NovaSenha from '../components/pwchangeFlow/novaSenha.js';
 
 
 function AppRoutes() {
@@ -20,6 +23,9 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/recuperar-senha" element={<RecuperarSenha />} />
+      <Route path="/emailCode" element={<EmailCode />} />
+      <Route path="/novaSenha" element={<NovaSenha />} />
       <Route path="/cadastro" element={<CadastroPage />} />
       <Route path="/reserva/:roomId" element={<ReservaPage />} />
       <Route path="/reserva/concluida" element={<SuccessPage />} />

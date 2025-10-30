@@ -1,0 +1,81 @@
+
+/* Styles adapted from LoginPage.css to match the recuperar senha layout */
+body {
+	margin: 0;
+	font-family: 'Inter', Arial, sans-serif;
+	background: #fff;
+}
+
+.container {
+	display: flex;
+	height: 100vh;
+}
+
+
+.right-panel {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #fff;
+}
+
+.recover-form {
+	width: 40.5vh;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.recover-form h2 {
+	font-size: 2rem;
+	margin-bottom: 8px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.subtitle {
+	text-align: center;
+	font-size: 0.9rem;
+	color: #333;
+	margin-bottom: 8px;
+}
+
+.input-with-icon{
+    width: 100%;
+}
+
+.recover-form input {
+	padding: 12px;
+	border-radius: 16px;
+	border: none;
+	background: #eaf5f3;
+	font-size: 1rem;
+	margin-bottom: 8px;
+}
+
+.recover-form button {
+	background: #1d6985;
+	color: #fff;
+	border: none;
+	border-radius: 10px;
+	padding: 12px;
+	font-size: 1rem;
+	font-weight: bold;
+	cursor: pointer;
+	margin-bottom: 16px;
+}
+
+.back-home {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 1rem;
+	color: #000;
+	cursor: pointer;
+}
+
+.home-icon {
+	width: 17%;
+}
+
