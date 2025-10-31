@@ -20,56 +20,58 @@ function EmailCode() {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage('');
-
-    if (code.some((digit) => digit === '')) {
-      setMessage('Digite o código completo.');
-      return;
-    }
-
+  const handleResend = async () => {
+    setMessage("");
     setLoading(true);
     try {
-      const response = await fetch('https://test-back-7vih.onrender.com/api/clientes/verify-token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, token: code.join('') }),
-      });
+      const response = await fetch(
+        "https://test-back-7vih.onrender.com/api/clientes/send-token",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        }
+      );
 
       const data = await response.json();
 
-      if (response.ok && data.success) {
+        if (response.ok && data.success) {
         navigate('/novaSenha', { state: { email } });
       } else {
-        setMessage(data.message || 'Código inválido ou erro ao verificar.');
+        setMessage(data.message || "Erro ao reenviar código.");
       }
     } catch (err) {
-      setMessage('Erro de conexão. Tente novamente.');
+      setMessage("Erro de conexão. Tente novamente.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleResend = async () => {
-    setMessage('');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage("");
+
     setLoading(true);
     try {
-      const response = await fetch('https://test-back-7vih.onrender.com/api/clientes/send-token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
+      const response = await fetch(
+        "https://test-back-7vih.onrender.com/api/clientes/send-token",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok && data.success) {
-        setMessage('Código reenviado para seu email.');
+        setMessage("Código enviado para seu email.");
+        navigate("/novaSenha", { state: { email } });
       } else {
-        setMessage(data.message || 'Erro ao reenviar código.');
+        setMessage(data.message || "Erro ao enviar código.");
       }
     } catch (err) {
-      setMessage('Erro de conexão. Tente novamente.');
+      setMessage("Erro de conexão. Tente novamente.");
     } finally {
       setLoading(false);
     }
