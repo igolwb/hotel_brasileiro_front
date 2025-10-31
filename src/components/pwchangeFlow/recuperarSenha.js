@@ -3,6 +3,7 @@ import homeimg from "../../assets/Home.svg";
 import logo from '../../assets/logo.svg';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import axios from 'axios'; // Import Axios
 
 function RecuperarSenha() {
   const navigate = useNavigate();
@@ -21,18 +22,12 @@ function RecuperarSenha() {
 
     setLoading(true);
     try {
-      const response = await fetch('https://test-back-7vih.onrender.com/api/clientes/send-token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
+      const response = await axios.post('https://test-back-7vih.onrender.com/api/clientes/send-token', { email });
 
-      const data = await response.json();
-
-      if (response.ok && data.success) {
+      if (response.data.success) {
         navigate('/emailCode', { state: { email } });
       } else {
-        setMessage(data.message || 'Erro ao enviar token.');
+        setMessage(response.data.message || 'Erro ao enviar token.');
       }
     } catch (err) {
       setMessage('Erro de conexão. Tente novamente.');
