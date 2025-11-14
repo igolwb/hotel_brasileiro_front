@@ -29,7 +29,7 @@ function NovaSenha() {
 
     setLoading(true);
     try {
-      const response = await fetch('https://test-back-7vih.onrender.com/api/clientes/update-password', {
+      const response = await fetch('https://dual-klara-hotel-brasileiro-eaecb8d3.koyeb.app/api/clientes/update-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

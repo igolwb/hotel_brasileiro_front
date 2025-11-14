@@ -18,7 +18,7 @@ const SuccessPage = () => {
     if (!paymentReferenceId) return;
 
     fetch(
-      `https://test-back-7vih.onrender.com/api/payments/status/${paymentReferenceId}`
+      `https://dual-klara-hotel-brasileiro-eaecb8d3.koyeb.app/api/payments/status/${paymentReferenceId}`
     )
       .then((res) => res.json())
       .then((data) => {

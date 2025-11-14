@@ -22,7 +22,7 @@ function RecuperarSenha() {
 
     setLoading(true);
     try {
-      const response = await axios.post('https://test-back-7vih.onrender.com/api/clientes/send-token', { email });
+      const response = await axios.post('https://dual-klara-hotel-brasileiro-eaecb8d3.koyeb.app/api/clientes/send-token', { email });
 
       if (response.data.success) {
         navigate('/emailCode', { state: { email } });

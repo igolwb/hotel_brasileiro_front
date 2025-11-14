@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-const URL = 'https://test-back-7vih.onrender.com'; // Ajuste para o endpoint da sua API
+const URL = 'https://dual-klara-hotel-brasileiro-eaecb8d3.koyeb.app'; // Ajuste para o endpoint da sua API
 
 const useApiStore = create((set) => ({
   clientes: [],
