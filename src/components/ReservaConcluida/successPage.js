@@ -1,53 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React from "react";
+import "./successPage.css";
 
 const SuccessPage = () => {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const paymentReferenceId = queryParams.get("ref");
-
-  const [paymentStatus, setPaymentStatus] = useState(null);
-  const [roomData, setRoomData] = useState(null);
-
-  useEffect(() => {
-    const savedRoom = localStorage.getItem("successRoom");
-    if (savedRoom) setRoomData(JSON.parse(savedRoom));
-  }, []);
-
-  useEffect(() => {
-    if (!paymentReferenceId) return;
-
-    fetch(
-      `https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/payments/status/${paymentReferenceId}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setPaymentStatus(data);
-      })
-      .catch((err) => console.error("Error fetching payment status:", err));
-  }, [paymentReferenceId]);
-
   return (
-    <div style={{ padding: "40px", textAlign: "center" }}>
-      <h1>Reserva concluída!</h1>
-      {roomData && (
-        <>
-          <h2>{roomData.nome}</h2>
-          <p>
-            De {new Date(roomData.checkInDate).toLocaleDateString("pt-BR")} até{" "}
-            {new Date(roomData.checkOutDate).toLocaleDateString("pt-BR")}
-          </p>
-          <p>Total pago: R$ {roomData.preco}</p>
-        </>
-      )}
-      {paymentStatus ? (
-        <p>
-          Status do pagamento:{" "}
-          <strong>{paymentStatus.results?.[0]?.status || "Desconhecido"}</strong>
+    <div className="success-container">
+      <div className="success-summary">
+        <h2>Reserva concluída!</h2>
+        <p className="success-message">
+          A lua já sabe que você vem. Prepare-se para um banho de estrelas.
         </p>
-      ) : (
-        <p>Verificando status do pagamento...</p>
-      )}
+        <a href="/" className="back-button">Voltar para o início</a>
+      </div>
     </div>
   );
 };
