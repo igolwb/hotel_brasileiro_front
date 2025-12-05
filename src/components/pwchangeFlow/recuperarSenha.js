@@ -22,7 +22,7 @@ function RecuperarSenha() {
 
     setLoading(true);
     try {
-      const response = await axios.post('https://dual-klara-hotel-brasileiro-eaecb8d3.koyeb.app/api/clientes/send-token', { email });
+      const response = await axios.post('https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/clientes/send-token', { email });
 
       if (response.data.success) {
         navigate('/emailCode', { state: { email } });

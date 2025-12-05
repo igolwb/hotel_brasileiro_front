@@ -18,7 +18,7 @@ const SuccessPage = () => {
     if (!paymentReferenceId) return;
 
     fetch(
-      `https://dual-klara-hotel-brasileiro-eaecb8d3.koyeb.app/api/payments/status/${paymentReferenceId}`
+      `https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/payments/status/${paymentReferenceId}`
     )
       .then((res) => res.json())
       .then((data) => {

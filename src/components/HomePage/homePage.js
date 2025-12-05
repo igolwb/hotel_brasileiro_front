@@ -63,7 +63,7 @@ const HomePage = () => {
 
   // Busca os quartos do backend ao carregar a página
   useEffect(() => {
-    fetch('https://dual-klara-hotel-brasileiro-eaecb8d3.koyeb.app/api/quartos')
+    fetch('https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/quartos')
       .then(res => res.json())
       .then(data => {
         if (data.success && data.data) setRooms(data.data);

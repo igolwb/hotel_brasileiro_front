@@ -24,7 +24,7 @@ function LoginPage() {
     e.preventDefault();
     setErrorMsg('');
     try {
-      const response = await axios.post('https://dual-klara-hotel-brasileiro-eaecb8d3.koyeb.app/api/login', { email, senha });
+      const response = await axios.post('https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/login', { email, senha });
       if (response.data.success) {
         const ok = signIn({
           auth: {

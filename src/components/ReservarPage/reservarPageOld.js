@@ -50,7 +50,7 @@ const ReservaPage = () => {
 
   // Busca os dados do quarto selecionado ao carregar a página
   useEffect(() => {
-    fetch(`https://dual-klara-hotel-brasileiro-eaecb8d3.koyeb.app/api/quartos/${roomId}`)
+    fetch(`https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/quartos/${roomId}`)
       .then(res => res.json())
       .then(data => {
         if (data.success && data.data) setSelectedRoom(data.data);
@@ -82,7 +82,7 @@ const ReservaPage = () => {
     }
     try {
       // Envia a requisição de reserva
-      const res = await fetch('https://dual-klara-hotel-brasileiro-eaecb8d3.koyeb.app/api/reservas', {
+      const res = await fetch('https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/reservas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
