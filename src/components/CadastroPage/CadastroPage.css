@@ -148,16 +148,21 @@ body {
 
   .left-panel h1 {
     font-size: 2.5rem;
-    line-height: 1.2;
+    margin: 0 0 20px 0;
+    font-weight: bold;
+    color: #fff;
   }
 
   .left-panel h2 {
-    font-size: 1.8rem;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #fff;
   }
 
   .left-panel p {
-    font-size: 1.1rem;
-    max-width: 320px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #fff;
   }
 
   .right-panel {

@@ -1,4 +1,3 @@
-
 /* Styles adapted from LoginPage.css to match the recuperar senha layout */
 body {
 	margin: 0;
@@ -77,5 +76,24 @@ body {
 
 .home-icon {
 	width: 17%;
+}
+
+.left-panel h1 {
+  font-size: 2.5rem;
+  margin: 0 0 20px 0;
+  font-weight: bold;
+  color: #fff;
+}
+
+.left-panel h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.left-panel p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: #fff;
 }
 

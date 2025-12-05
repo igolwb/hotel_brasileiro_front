@@ -37,16 +37,19 @@ body {
   font-size: 2.5rem;
   margin: 0 0 20px 0;
   font-weight: bold;
+  color: #fff;
 }
 
 .left-panel h2 {
-  font-size: 2.0trem;
+  font-size: 2rem;
   margin-bottom: 10px;
+  color: #fff;
 }
 
 .left-panel p {
-  font-size: 0.7rem;
-  margin-bottom: 60vh;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: #fff;
 }
 
 .right-panel {
