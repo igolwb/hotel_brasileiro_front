@@ -43,6 +43,8 @@ function CadastroPage() {
   // Estado para exibir/ocultar senha
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  // Estado de loading
+  const [loading, setLoading] = useState(false);
 
   // Regex para validação de email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -89,34 +91,41 @@ function CadastroPage() {
     setError('');
     setSuccess('');
     setShowPasswordRequirements(false);
+    setLoading(true);
 
     // Validação dos campos
     if (!form.nome || !form.email || !form.telefone || !form.senha || !form.confirmSenha) {
       setError('Por favor, preencha todos os campos.');
+      setLoading(false);
       return;
     }
     if (!emailRegex.test(form.email)) {
       setError('Email inválido.');
+      setLoading(false);
       return;
     }
     if (!phoneRegex.test(form.telefone)) {
       setError('Telefone inválido. Use o formato (XX) XXXXX-XXXX.');
+      setLoading(false);
       return;
     }
     if (form.senha !== form.confirmSenha) {
       setError('As senhas não coincidem.');
+      setLoading(false);
       return;
     }
     const failedReqs = passwordRequirements.filter(r => !r.test(form.senha));
     if (failedReqs.length > 0) {
       setError('Senha inválida. Veja os requisitos abaixo.');
       setShowPasswordRequirements(true);
+      setLoading(false);
       return;
     }
 
     try {
       // Envia código de confirmação
       const response = await enviarCodigoConfirmacao(form);
+      setLoading(false);
       if (response && response.success) {
         setSuccess('Código de confirmação enviado para o email.');
         sessionStorage.setItem('userInfo', JSON.stringify(form));
@@ -126,6 +135,7 @@ function CadastroPage() {
       }
     } catch (err) {
       setError('Erro ao enviar código de confirmação. Tente novamente.');
+      setLoading(false);
     }
   };
 
