@@ -305,6 +305,18 @@ getReservasEstatisticas: async (authHeader) => {
     return null;
   }
 },
+
+confirmCliente: async (codigo) => {
+  set({ loading: true, error: null });
+  try {
+    const response = await axios.post(`${URL}/api/clientes/confirm`, { confirmationCode: codigo });
+    set({ loading: false });
+    return response.data;
+  } catch (error) {
+    set({ error: error.message || 'Erro ao confirmar cliente', loading: false });
+    throw error;
+  }
+},
 }));
 
 export default useApiStore;

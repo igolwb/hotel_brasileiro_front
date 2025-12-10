@@ -112,41 +112,44 @@ function CadastroPage() {
       setShowPasswordRequirements(true);
       return;
     }
+    // Store user info in sessionStorage and navigate to confirmation page
     try {
-      const response = await createCliente(form);
-      // Se o backend retornar sucesso, mostra mensagem e redireciona
-      if (response && response.success) {
-        setSuccess('Cadastro realizado com sucesso!');
-        setTimeout(() => navigate('/'), 1500);
-      } else if (response && response.message) {
-        // Se o backend retornar erro de email ou telefone duplicado
-        if (response.message.includes('Email já cadastrado')) {
-          setError('Este email já está cadastrado.');
+      // Check for duplicate email or phone number errors
+      try {
+        const response = await createCliente(form);
+        if (response && response.success) {
+          setSuccess('Cadastro realizado com sucesso!');
+          sessionStorage.setItem('userInfo', JSON.stringify(form));
+          setTimeout(() => navigate('/confirmacao'), 1500);
+        } else if (response && response.message) {
+          if (response.message.includes('Email já cadastrado')) {
+            setError('Este email já está cadastrado.');
+            return;
+          }
+          if (response.message.includes('Telefone já cadastrado')) {
+            setError('Este telefone já está cadastrado.');
+            return;
+          }
+          setError(response.message);
+        } else {
+          setError('Erro ao cadastrar. Tente novamente.');
+        }
+      } catch (err) {
+        if (err && err.response && err.response.data && err.response.data.message) {
+          if (err.response.data.message.includes('Email já cadastrado')) {
+            setError('Este email já está cadastrado.');
+            return;
+          }
+          if (err.response.data.message.includes('Telefone já cadastrado')) {
+            setError('Este telefone já está cadastrado.');
+            return;
+          }
+          setError(err.response.data.message);
           return;
         }
-        if (response.message.includes('Telefone já cadastrado')) {
-          setError('Este telefone já está cadastrado.');
-          return;
-        }
-        setError(response.message);
-        return;
-      } else {
         setError('Erro ao cadastrar. Tente novamente.');
       }
     } catch (err) {
-      // Verifica se o erro é de email ou telefone duplicado
-      if (err && err.response && err.response.data && err.response.data.message) {
-        if (err.response.data.message.includes('Email já cadastrado')) {
-          setError('Este email já está cadastrado.');
-          return;
-        }
-        if (err.response.data.message.includes('Telefone já cadastrado')) {
-          setError('Este telefone já está cadastrado.');
-          return;
-        }
-        setError(err.response.data.message);
-        return;
-      }
       setError('Erro ao cadastrar. Tente novamente.');
     }
   };

@@ -16,6 +16,7 @@ import ReservaGraphs from '../components/AdminPages/ReservaGraphs/reservaGraphs.
 import RecuperarSenha from '../components/pwchangeFlow/recuperarSenha.js';
 import EmailCode from '../components/pwchangeFlow/emailcode.js';
 import NovaSenha from '../components/pwchangeFlow/novaSenha.js';
+import ConfirmacaoPage from '../components/ConfirmacaoPage/confirmacaoPage.js'; // Importando a nova página de confirmação
 
 
 function AppRoutes() {
@@ -30,6 +31,7 @@ function AppRoutes() {
       <Route path="/reserva/:roomId" element={<ReservaPage />} />
       <Route path="/reserva/concluida" element={<SuccessPage />} />
       <Route path="/minhas-reservas" element={<MinhasReservas />} />
+      <Route path="/confirmacao" element={<ConfirmacaoPage />} /> {/* Rota para a página de confirmação */}
 
       {/* Rotas de Admin */}
       
