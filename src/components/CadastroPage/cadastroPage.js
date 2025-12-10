@@ -13,7 +13,7 @@ function CadastroPage() {
   // Hook de navegação do React Router
   const navigate = useNavigate();
   // Função da store para criar cliente e estado de loading
-  const { createCliente, loading } = useApiStore();
+  const { enviarCodigoConfirmacao } = useApiStore();
   // Estado para detectar se é mobile
   const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
 
@@ -89,6 +89,7 @@ function CadastroPage() {
     setError('');
     setSuccess('');
     setShowPasswordRequirements(false);
+
     // Validação dos campos
     if (!form.nome || !form.email || !form.telefone || !form.senha || !form.confirmSenha) {
       setError('Por favor, preencha todos os campos.');
@@ -112,45 +113,19 @@ function CadastroPage() {
       setShowPasswordRequirements(true);
       return;
     }
-    // Store user info in sessionStorage and navigate to confirmation page
+
     try {
-      // Check for duplicate email or phone number errors
-      try {
-        const response = await createCliente(form);
-        if (response && response.success) {
-          setSuccess('Cadastro realizado com sucesso!');
-          sessionStorage.setItem('userInfo', JSON.stringify(form));
-          setTimeout(() => navigate('/confirmacao'), 1500);
-        } else if (response && response.message) {
-          if (response.message.includes('Email já cadastrado')) {
-            setError('Este email já está cadastrado.');
-            return;
-          }
-          if (response.message.includes('Telefone já cadastrado')) {
-            setError('Este telefone já está cadastrado.');
-            return;
-          }
-          setError(response.message);
-        } else {
-          setError('Erro ao cadastrar. Tente novamente.');
-        }
-      } catch (err) {
-        if (err && err.response && err.response.data && err.response.data.message) {
-          if (err.response.data.message.includes('Email já cadastrado')) {
-            setError('Este email já está cadastrado.');
-            return;
-          }
-          if (err.response.data.message.includes('Telefone já cadastrado')) {
-            setError('Este telefone já está cadastrado.');
-            return;
-          }
-          setError(err.response.data.message);
-          return;
-        }
-        setError('Erro ao cadastrar. Tente novamente.');
+      // Envia código de confirmação
+      const response = await enviarCodigoConfirmacao(form);
+      if (response && response.success) {
+        setSuccess('Código de confirmação enviado para o email.');
+        sessionStorage.setItem('userInfo', JSON.stringify(form));
+        setTimeout(() => navigate('/confirmacao'), 1500);
+      } else {
+        setError(response.message || 'Erro ao enviar código de confirmação.');
       }
     } catch (err) {
-      setError('Erro ao cadastrar. Tente novamente.');
+      setError('Erro ao enviar código de confirmação. Tente novamente.');
     }
   };
 
