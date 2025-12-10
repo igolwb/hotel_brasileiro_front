@@ -8,10 +8,17 @@ import useApiStore from '../../services/web-api.js';
 
 function ConfirmacaoPage() {
   const navigate = useNavigate();
-  const { confirmCliente, loading } = useApiStore();
+  const { confirmCliente } = useApiStore();
   const [codigo, setCodigo] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  // Add missing state declarations
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [senha, setSenha] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Retrieve user info from sessionStorage
   useEffect(() => {
