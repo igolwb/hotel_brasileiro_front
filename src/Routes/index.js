@@ -16,7 +16,7 @@ import ReservaGraphs from '../components/AdminPages/ReservaGraphs/reservaGraphs.
 import RecuperarSenha from '../components/pwchangeFlow/recuperarSenha.js';
 import EmailCode from '../components/pwchangeFlow/emailcode.js';
 import NovaSenha from '../components/pwchangeFlow/novaSenha.js';
-import ConfirmacaoPage from '../components/ConfirmacaoPage/confirmacaoPage.js'; // Importando a nova página de confirmação
+import ConfirmacaoPage from '../components/CadastroPage/ConfirmacaoPage.js'; // Importando a nova página de confirmação
 
 
 function AppRoutes() {
