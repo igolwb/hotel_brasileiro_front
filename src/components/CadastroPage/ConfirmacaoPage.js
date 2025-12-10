@@ -13,7 +13,7 @@ function ConfirmacaoPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // Add missing state declarations
+  // Define missing state variables for user info and loading
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
