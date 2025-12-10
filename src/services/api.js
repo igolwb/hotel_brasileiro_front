@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-const URL = 'https://scared-kristien-igoty1910-978c1b13.koyeb.app'; // Ajuste para o endpoint da sua API
+const URL = 'https://hotel-brasileiro-back-1.onrender.com'; // Ajuste para o endpoint da sua API
 
 const useApiStore = create((set) => ({
   clientes: [],

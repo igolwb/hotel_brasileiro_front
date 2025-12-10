@@ -41,7 +41,7 @@ export const ReservaPage = () => {
 
   // 🔎 Busca dados do quarto
   useEffect(() => {
-    fetch(`https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/quartos/${roomId}`)
+    fetch(`https://hotel-brasileiro-back-1.onrender.com/api/quartos/${roomId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data) setSelectedRoom(data.data);
@@ -74,7 +74,7 @@ export const ReservaPage = () => {
 
     try {
       // Step 1: Create reservation in the database
-      const res = await fetch('https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/reservas', {
+      const res = await fetch('https://hotel-brasileiro-back-1.onrender.com/api/reservas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ export const ReservaPage = () => {
       };
 
       const paymentRes = await fetch(
-        'https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/payments/create-checkout',
+        'https://hotel-brasileiro-back-1.onrender.com/api/payments/create-checkout',
         {
           method: 'POST',
           headers: {

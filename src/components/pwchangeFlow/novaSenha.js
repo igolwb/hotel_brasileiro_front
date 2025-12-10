@@ -29,7 +29,7 @@ function NovaSenha() {
 
     setLoading(true);
     try {
-      const response = await fetch('https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/clientes/update-password', {
+      const response = await fetch('https://hotel-brasileiro-back-1.onrender.com/api/clientes/update-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

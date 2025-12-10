@@ -25,7 +25,7 @@ function EmailCode() {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/clientes/send-token",
+        "https://hotel-brasileiro-back-1.onrender.com/api/clientes/send-token",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -54,7 +54,7 @@ function EmailCode() {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/clientes/send-token",
+        "https://hotel-brasileiro-back-1.onrender.com/api/clientes/send-token",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

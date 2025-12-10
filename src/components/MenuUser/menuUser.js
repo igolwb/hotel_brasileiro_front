@@ -26,7 +26,7 @@ function MinhasReservas() {
 
   useEffect(() => {
     // Buscar reservas
-    fetch('https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/reservas/minhas-reservas', {
+    fetch('https://hotel-brasileiro-back-1.onrender.com/api/reservas/minhas-reservas', {
       headers: {
         Authorization: authHeader
       }
@@ -35,7 +35,7 @@ function MinhasReservas() {
       .then(data => setReservas(data));
 
     // Buscar nome e foto do usuário autenticado
-    fetch('https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/clientes/me', {
+    fetch('https://hotel-brasileiro-back-1.onrender.com/api/clientes/me', {
       headers: {
         Authorization: authHeader
       }
@@ -45,7 +45,7 @@ function MinhasReservas() {
         if (data && data.success && data.data) {
           setUserNome(data.data.nome || 'Usuário');
           if (data.data.ft_perfil) {
-            setProfilePicUrl(`https://scared-kristien-igoty1910-978c1b13.koyeb.app/${data.data.ft_perfil}`);
+            setProfilePicUrl(`https://hotel-brasileiro-back-1.onrender.com/${data.data.ft_perfil}`);
           } else {
             setProfilePicUrl(user);
           }
@@ -85,7 +85,7 @@ function MinhasReservas() {
 
   async function confirmarExclusao() {
     if (reservaSelecionada) {
-      await fetch(`https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/reservas/${reservaSelecionada.reserva_id}`, {
+      await fetch(`https://hotel-brasileiro-back-1.onrender.com/api/reservas/${reservaSelecionada.reserva_id}`, {
         method: 'DELETE',
         headers: {
           Authorization: authHeader
@@ -103,7 +103,7 @@ function MinhasReservas() {
       return;
     }
     try {
-      const response = await fetch(`https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/clientes/${userId}`, {
+      const response = await fetch(`https://hotel-brasileiro-back-1.onrender.com/api/clientes/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ function MinhasReservas() {
       if (profilePicFile && userId) {
         const formData = new FormData();
         formData.append('ft_perfil', profilePicFile);
-        await fetch(`https://scared-kristien-igoty1910-978c1b13.koyeb.app/api/clientes/${userId}/ft_perfil`, {
+        await fetch(`https://hotel-brasileiro-back-1.onrender.com/api/clientes/${userId}/ft_perfil`, {
           method: 'PUT',
           headers: {
             Authorization: authHeader
