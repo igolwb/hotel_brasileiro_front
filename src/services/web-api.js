@@ -317,6 +317,18 @@ confirmCliente: async (codigo) => {
     throw error;
   }
 },
+
+enviarCodigoConfirmacao: async (cliente) => {
+  set({ loading: true, error: null });
+  try {
+    const response = await axios.post(`${URL}/api/clientes/send-confirmation-code`, cliente);
+    set({ loading: false });
+    return response.data;
+  } catch (error) {
+    set({ loading: false, error: error.message || 'Erro ao enviar código de confirmação' });
+    throw error;
+  }
+},
 }));
 
 export default useApiStore;
