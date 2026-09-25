@@ -1,8 +1,8 @@
 // src/hooks/useAuthAdmin.js
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader'; // Importe o hook useAuthHeader
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader"; // Importe o hook useAuthHeader
 
 export default function useAuthAdmin() {
   const authUser = useAuthUser();
@@ -12,11 +12,11 @@ export default function useAuthAdmin() {
   useEffect(() => {
     if (!authUser) {
       // Usuário não está logado
-      navigate('/login');
-    } else if (authUser.role !== 'admin') {
+      navigate("/login");
+    } else if (authUser.role !== "admin") {
       // Usuário não é admin
-      alert('Acesso negado: você não tem permissão para acessar esta página.');
-      navigate('/');
+      alert("Acesso negado: você não tem permissão para acessar esta página.");
+      navigate("/");
     }
   }, [authUser, navigate]);
 

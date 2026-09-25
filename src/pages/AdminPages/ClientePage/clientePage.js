@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import useApiStore from '../../../services/web-api.js';
-import AdminHeader from '../../../components/HeaderAdmin/adminHeader.js';
-import { useNavigate } from 'react-router-dom';
-import useAuthAdmin from '../../../hooks/adminAuth.js';
-import './clientePage.css';
+import React, { useEffect, useState } from "react";
+import useApiStore from "../../../services/web-api.js";
+import AdminHeader from "../../../components/HeaderAdmin/adminHeader.js";
+import { useNavigate } from "react-router-dom";
+import useAuthAdmin from "../../../hooks/adminAuth.js";
+import "./clientePage.css";
 
 const USERS_PER_PAGE = 10;
 
@@ -11,14 +11,10 @@ function Clientes() {
   const { authUser, authHeader } = useAuthAdmin();
   const navigate = useNavigate();
 
-  const {
-    clientes,
-    loading,
-    fetchClientes,
-  } = useApiStore();
+  const { clientes, loading, fetchClientes } = useApiStore();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [reservasCliente, setReservasCliente] = useState([]);
   const [selectedCliente, setSelectedCliente] = useState(null);
@@ -47,21 +43,20 @@ function Clientes() {
   }
 
   function formatarData(dataStr) {
-    if (!dataStr) return '';
+    if (!dataStr) return "";
     const data = new Date(dataStr);
-    const dia = String(data.getDate()).padStart(2, '0');
-    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const dia = String(data.getDate()).padStart(2, "0");
+    const mes = String(data.getMonth() + 1).padStart(2, "0");
     const ano = data.getFullYear();
     return `${dia}/${mes}/${ano}`;
   }
 
   async function handleDeleteReserva(reserva) {
-    alert('Excluir reserva: ' + reserva.id);
+    alert("Excluir reserva: " + reserva.id);
   }
 
-  const filteredClientes = clientes.filter(cliente =>
-    cliente.email.toLowerCase().includes(search.toLowerCase()) ||
-    cliente.id.toString().includes(search)
+  const filteredClientes = clientes.filter(
+    (cliente) => cliente.email.toLowerCase().includes(search.toLowerCase()) || cliente.id.toString().includes(search),
   );
 
   const indexOfLastUser = currentPage * USERS_PER_PAGE;
@@ -74,11 +69,15 @@ function Clientes() {
     <>
       <AdminHeader />
       <div className="clientes-container">
-
         <h1 className="clientes-title">Clientes</h1>
 
-        <input type="text" value={search} onChange={e => setSearch(e.target.value)}
-        className="clientes-search-box" placeholder="Buscar por ID ou Email"/>
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="clientes-search-box"
+          placeholder="Buscar por ID ou Email"
+        />
 
         <table className="clientes-table">
           <thead>
@@ -95,7 +94,9 @@ function Clientes() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={6} style={{ textAlign: 'center' }}>Carregando...</td>
+                <td colSpan={6} style={{ textAlign: "center" }}>
+                  Carregando...
+                </td>
               </tr>
             ) : (
               <>
@@ -112,12 +113,16 @@ function Clientes() {
                         Ver Reservas
                       </button>
                     </td>
-
                   </tr>
                 ))}
                 {Array.from({ length: linhasVazias }).map((_, idx) => (
                   <tr key={`empty-${idx}`}>
-                    <td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td>
+                    <td>&nbsp;</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 ))}
               </>
@@ -128,7 +133,7 @@ function Clientes() {
         <div className="pagination">
           <button
             className="pagination-btn"
-            onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
             disabled={currentPage === 1}
           >
             Anterior
@@ -136,7 +141,7 @@ function Clientes() {
           {Array.from({ length: totalPages }).map((_, idx) => (
             <button
               key={idx}
-              className={`pagination-btn ${currentPage === idx + 1 ? 'active' : ''}`}
+              className={`pagination-btn ${currentPage === idx + 1 ? "active" : ""}`}
               onClick={() => setCurrentPage(idx + 1)}
             >
               {idx + 1}
@@ -144,7 +149,7 @@ function Clientes() {
           ))}
           <button
             className="pagination-btn"
-            onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+            onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
             disabled={currentPage === totalPages}
           >
             Próxima
@@ -153,7 +158,7 @@ function Clientes() {
 
         {showModal && (
           <div className="modal-bg" onClick={fecharModal}>
-            <div className="modal" onClick={e => e.stopPropagation()}>
+            <div className="modal" onClick={(e) => e.stopPropagation()}>
               <h2>Reservas de {selectedCliente?.nome}</h2>
               {reservasCliente.length > 0 ? (
                 <table className="reservas-table">
@@ -181,7 +186,6 @@ function Clientes() {
                             Editar
                           </button>
                         </td>
-
                       </tr>
                     ))}
                   </tbody>
@@ -190,7 +194,9 @@ function Clientes() {
                 <p>Nenhuma reserva encontrada para este cliente.</p>
               )}
               <div className="modal-actions">
-                <button className="btn-cancel" onClick={fecharModal}>Fechar</button>
+                <button className="btn-cancel" onClick={fecharModal}>
+                  Fechar
+                </button>
               </div>
             </div>
           </div>

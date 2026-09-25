@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import useApiStore from '../../../services/web-api.js';
-import { useNavigate } from 'react-router-dom';
-import AdminHeader from '../../../components/HeaderAdmin/adminHeader.js';
-import useAuthAdmin from '../../../hooks/adminAuth.js';
-import './quartoPage.css';
-import tabler_edit from '../../../assets/tabler_edit.svg';
-import delete_btn from '../../../assets/delete_btn.svg';
+import React, { useEffect, useState } from "react";
+import useApiStore from "../../../services/web-api.js";
+import { useNavigate } from "react-router-dom";
+import AdminHeader from "../../../components/HeaderAdmin/adminHeader.js";
+import useAuthAdmin from "../../../hooks/adminAuth.js";
+import "./quartoPage.css";
+import tabler_edit from "../../../assets/tabler_edit.svg";
+import delete_btn from "../../../assets/delete_btn.svg";
 
 const QUARTOS_PER_PAGE = 10;
 
@@ -87,7 +87,9 @@ function Quartos() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={7} style={{ textAlign: 'center' }}>Carregando...</td>
+                <td colSpan={7} style={{ textAlign: "center" }}>
+                  Carregando...
+                </td>
               </tr>
             ) : (
               <>
@@ -95,27 +97,29 @@ function Quartos() {
                   <tr key={quarto.id}>
                     <td>{quarto.id}</td>
                     <td>
-  {quarto.imagem_url ? (
-    <>
-      {console.log('Imagem URL:', quarto.imagem_url)}
-      <img src={quarto.imagem_url} alt="Imagem do quarto" style={{ width: 60, height: 40, objectFit: 'cover', borderRadius: 4 }} />
-    </>
-  ) : (
-    'Sem imagem'
-  )}
-</td>
+                      {quarto.imagem_url ? (
+                        <>
+                          {console.log("Imagem URL:", quarto.imagem_url)}
+                          <img
+                            src={quarto.imagem_url}
+                            alt="Imagem do quarto"
+                            style={{ width: 60, height: 40, objectFit: "cover", borderRadius: 4 }}
+                          />
+                        </>
+                      ) : (
+                        "Sem imagem"
+                      )}
+                    </td>
                     <td>{quarto.nome}</td>
                     <td>{quarto.descricao}</td>
                     <td>{quarto.preco}</td>
                     <td>{quarto.quantidade}</td>
                     <td>
-                      <button
-                      className="btn-trash" onClick={() => abrirModal(quarto)}>
-                         <img src={delete_btn} alt="Excluir" style={{ width: 28, height: 28 }}/>
+                      <button className="btn-trash" onClick={() => abrirModal(quarto)}>
+                        <img src={delete_btn} alt="Excluir" style={{ width: 28, height: 28 }} />
                       </button>
-                      <button
-                      className="btn-image" onClick={() => navigate(`/admin/quartos/${quarto.id}`)}>
-                        <img src={tabler_edit} alt="Editar" style={{ width: 28, height: 28 }}/>
+                      <button className="btn-image" onClick={() => navigate(`/admin/quartos/${quarto.id}`)}>
+                        <img src={tabler_edit} alt="Editar" style={{ width: 28, height: 28 }} />
                       </button>
                     </td>
                   </tr>
@@ -138,36 +142,51 @@ function Quartos() {
 
         {/* Paginação */}
         <div className="pagination">
-          <button className="pagination-btn" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}>Anterior
+          <button
+            className="pagination-btn"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Anterior
           </button>
           {Array.from({ length: totalPages }).map((_, idx) => (
             <button
               key={idx}
-              className={`pagination-btn ${currentPage === idx + 1 ? 'active' : ''}`}
+              className={`pagination-btn ${currentPage === idx + 1 ? "active" : ""}`}
               onClick={() => setCurrentPage(idx + 1)}
             >
               {idx + 1}
             </button>
           ))}
-          <button className="pagination-btn" onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}>Próxima
+          <button
+            className="pagination-btn"
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Próxima
           </button>
         </div>
 
         {/* Botão Adicionar */}
-        <button className="btn-add" onClick={() => navigate(`/admin/quartos/addQuarto`)}>Adicionar
+        <button className="btn-add" onClick={() => navigate(`/admin/quartos/addQuarto`)}>
+          Adicionar
         </button>
 
         {/* Modal de confirmação */}
         {showModal && (
           <div className="modal-bg" onClick={fecharModal}>
-            <div className="modal" onClick={e => e.stopPropagation()}>
+            <div className="modal" onClick={(e) => e.stopPropagation()}>
               <h2>Confirmar Exclusão</h2>
-              <p>Deseja realmente excluir o quarto <b>{quartoSelecionado?.nome}</b>?</p>
+              <p>
+                Deseja realmente excluir o quarto <b>{quartoSelecionado?.nome}</b>?
+              </p>
               <div className="modal-actions">
-                <button className="btn-cancel" onClick={fecharModal}>Cancelar</button>
-                <button className="btn-confirm" onClick={confirmarExclusao}>Excluir</button>
+                <button className="btn-cancel" onClick={fecharModal}>
+                  Cancelar
+                </button>
+                <button className="btn-confirm" onClick={confirmarExclusao}>
+                  Excluir
+                </button>
               </div>
             </div>
           </div>

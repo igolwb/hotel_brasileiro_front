@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import useApiStore from '../../../services/web-api.js';
-import { useNavigate } from 'react-router-dom';
-import useAuthAdmin from '../../../hooks/adminAuth.js';
-import './formReserva.css';
+import React, { useState } from "react";
+import useApiStore from "../../../services/web-api.js";
+import { useNavigate } from "react-router-dom";
+import useAuthAdmin from "../../../hooks/adminAuth.js";
+import "./formReserva.css";
 
 // Componente para adicionar uma nova reserva
 function AddReserva() {
@@ -14,11 +14,11 @@ function AddReserva() {
 
   // Estado do formulário da reserva
   const [form, setForm] = useState({
-    quarto_id: '',
-    cliente_id: '',
-    hospedes: '',
-    inicio: '',
-    fim: ''
+    quarto_id: "",
+    cliente_id: "",
+    hospedes: "",
+    inicio: "",
+    fim: "",
   });
 
   // Atualiza o estado do formulário ao digitar nos campos
@@ -26,7 +26,7 @@ function AddReserva() {
     const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -35,10 +35,10 @@ function AddReserva() {
     e.preventDefault();
     try {
       await createReserva(form, authHeader);
-      navigate('/admin/reservas');
+      navigate("/admin/reservas");
     } catch (error) {
-      console.error('Erro ao criar a reserva:', error);
-      alert('Não foi possível criar a reserva. Tente novamente.');
+      console.error("Erro ao criar a reserva:", error);
+      alert("Não foi possível criar a reserva. Tente novamente.");
     }
   };
 
@@ -105,16 +105,12 @@ function AddReserva() {
           <button
             type="button"
             className="editar-reserva-cancelar"
-            onClick={() => navigate('/admin/reservas')}
+            onClick={() => navigate("/admin/reservas")}
             disabled={loading}
           >
             Cancelar
           </button>
-          <button
-            type="submit"
-            className="editar-reserva-salvar"
-            disabled={loading}
-          >
+          <button type="submit" className="editar-reserva-salvar" disabled={loading}>
             Salvar
           </button>
         </div>

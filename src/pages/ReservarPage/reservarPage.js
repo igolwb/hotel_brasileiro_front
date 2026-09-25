@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader';
-import './ReservarPage.css';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import "./ReservarPage.css";
 
 export const ReservaPage = () => {
   const { roomId } = useParams();
   const [selectedRoom, setSelectedRoom] = useState(null);
-  const [checkInDate, setCheckInDate] = useState('');
-  const [checkOutDate, setCheckOutDate] = useState('');
+  const [checkInDate, setCheckInDate] = useState("");
+  const [checkOutDate, setCheckOutDate] = useState("");
   const [guests, setGuests] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [mensagemErro, setMensagemErro] = useState('');
+  const [mensagemErro, setMensagemErro] = useState("");
 
   const authUser = useAuthUser();
   const authHeader = useAuthHeader();
@@ -28,14 +28,13 @@ export const ReservaPage = () => {
   };
 
   const diarias = getDiarias();
-  const total =
-    selectedRoom && diarias > 0 ? Number(selectedRoom.preco) * diarias : 0;
+  const total = selectedRoom && diarias > 0 ? Number(selectedRoom.preco) * diarias : 0;
 
   // 🔒 Redireciona se não estiver logado
   useEffect(() => {
     if (!authUser) {
-      alert('Você precisa estar logado para fazer uma reserva.');
-      navigate('/login');
+      alert("Você precisa estar logado para fazer uma reserva.");
+      navigate("/login");
     }
   }, [authUser, navigate]);
 
@@ -52,15 +51,15 @@ export const ReservaPage = () => {
 
   // 💳 Cria o checkout PagBank
   const handlePaymentCheckout = async () => {
-    setMensagemErro('');
+    setMensagemErro("");
 
     if (!checkInDate || !checkOutDate || !guests) {
-      setMensagemErro('Preencha todos os campos!');
+      setMensagemErro("Preencha todos os campos!");
       return;
     }
 
     if (new Date(checkInDate) >= new Date(checkOutDate)) {
-      setMensagemErro('A data de início deve ser anterior à data de fim.');
+      setMensagemErro("A data de início deve ser anterior à data de fim.");
       return;
     }
 
@@ -68,16 +67,16 @@ export const ReservaPage = () => {
     hoje.setHours(0, 0, 0, 0);
     const dataInicio = new Date(checkInDate);
     if (dataInicio < hoje) {
-      setMensagemErro('Não é possível criar reservas no passado.');
+      setMensagemErro("Não é possível criar reservas no passado.");
       return;
     }
 
     try {
       // Step 1: Create reservation in the database
-      const res = await fetch('https://hotel-brasileiro-back-1.onrender.com/api/reservas', {
-        method: 'POST',
+      const res = await fetch("https://hotel-brasileiro-back-1.onrender.com/api/reservas", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: authHeader,
         },
         body: JSON.stringify({
@@ -90,7 +89,7 @@ export const ReservaPage = () => {
 
       if (!res.ok) {
         const err = await res.json();
-        alert(err.error || 'Erro ao criar reserva');
+        alert(err.error || "Erro ao criar reserva");
         return;
       }
 
@@ -107,12 +106,10 @@ export const ReservaPage = () => {
 
       const user = authUser;
       const customer = {
-        name: user?.nome || 'Cliente',
-        email: user?.email || 'cliente@teste.com',
-        tax_id: '12345678909',
-        phones: [
-          { country: '55', area: '11', number: '999999999', type: 'MOBILE' },
-        ],
+        name: user?.nome || "Cliente",
+        email: user?.email || "cliente@teste.com",
+        tax_id: "12345678909",
+        phones: [{ country: "55", area: "11", number: "999999999", type: "MOBILE" }],
       };
 
       const redirectUrls = {
@@ -120,33 +117,30 @@ export const ReservaPage = () => {
         failure: `${window.location.origin}/reserva/erro`,
       };
 
-      const paymentRes = await fetch(
-        'https://hotel-brasileiro-back-1.onrender.com/api/payments/create-checkout',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: authHeader,
-          },
-          body: JSON.stringify({
-            referenceId: `reserva_${reservaData.data?.id || roomId}`,
-            customer,
-            items,
-            redirectUrls,
-          }),
-        }
-      );
+      const paymentRes = await fetch("https://hotel-brasileiro-back-1.onrender.com/api/payments/create-checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authHeader,
+        },
+        body: JSON.stringify({
+          referenceId: `reserva_${reservaData.data?.id || roomId}`,
+          customer,
+          items,
+          redirectUrls,
+        }),
+      });
 
       const paymentData = await paymentRes.json();
 
       if (paymentData.success && paymentData.checkoutUrl) {
         window.location.href = paymentData.checkoutUrl;
       } else {
-        alert('Erro ao iniciar o pagamento.');
-        console.error('Checkout error:', paymentData);
+        alert("Erro ao iniciar o pagamento.");
+        console.error("Checkout error:", paymentData);
       }
     } catch (error) {
-      alert('Erro ao criar reserva ou checkout.');
+      alert("Erro ao criar reserva ou checkout.");
       console.error(error);
     }
   };
@@ -166,34 +160,23 @@ export const ReservaPage = () => {
             <div className="date-picker">
               <div className="date-field">
                 <label>Quando seu descanso começa?</label>
-                <input
-                  type="date"
-                  value={checkInDate}
-                  onChange={(e) => setCheckInDate(e.target.value)}
-                />
+                <input type="date" value={checkInDate} onChange={(e) => setCheckInDate(e.target.value)} />
               </div>
               <div className="date-field">
                 <label>Quando a saudade vai bater?</label>
-                <input
-                  type="date"
-                  value={checkOutDate}
-                  onChange={(e) => setCheckOutDate(e.target.value)}
-                />
+                <input type="date" value={checkOutDate} onChange={(e) => setCheckOutDate(e.target.value)} />
               </div>
             </div>
             <div className="guest-counter">
               <h3>Quantidade de pessoas</h3>
-              <select
-                value={guests}
-                onChange={(e) => setGuests(parseInt(e.target.value))}
-              >
+              <select value={guests} onChange={(e) => setGuests(parseInt(e.target.value))}>
                 <option value={1}>1</option>
                 <option value={2}>2</option>
               </select>
             </div>
-            <div style={{ marginTop: '20px' }}>
+            <div style={{ marginTop: "20px" }}>
               <h3>Experiência Adicional:</h3>
-              <p style={{ fontSize: '14px', color: '#666' }}>Alvorada Secreta</p>
+              <p style={{ fontSize: "14px", color: "#666" }}>Alvorada Secreta</p>
             </div>
           </div>
         </div>
@@ -204,11 +187,7 @@ export const ReservaPage = () => {
           <div className="step-content">
             <h2>Quarto escolhido</h2>
             <div className="room-carda">
-              <img
-                src={selectedRoom.imagem_url}
-                alt={selectedRoom.nome}
-                className="room-image"
-              />
+              <img src={selectedRoom.imagem_url} alt={selectedRoom.nome} className="room-image" />
               <div className="room-infoa">
                 <h3>{selectedRoom.nome}</h3>
                 <p>{selectedRoom.descricao}</p>
@@ -226,13 +205,8 @@ export const ReservaPage = () => {
               <h3>Total</h3>
               {checkInDate && checkOutDate && (
                 <div className="dates-summary">
-                  <p>
-                    Check-in: {new Date(checkInDate).toLocaleDateString('pt-BR')}
-                  </p>
-                  <p>
-                    Check-out:{' '}
-                    {new Date(checkOutDate).toLocaleDateString('pt-BR')}
-                  </p>
+                  <p>Check-in: {new Date(checkInDate).toLocaleDateString("pt-BR")}</p>
+                  <p>Check-out: {new Date(checkOutDate).toLocaleDateString("pt-BR")}</p>
                   <p>Hóspedes: {guests}</p>
                   <p>Diárias: {diarias}</p>
                 </div>
@@ -245,18 +219,15 @@ export const ReservaPage = () => {
                 {mensagemErro && (
                   <div
                     style={{
-                      color: 'red',
-                      marginBottom: '10px',
-                      fontWeight: 'bold',
+                      color: "red",
+                      marginBottom: "10px",
+                      fontWeight: "bold",
                     }}
                   >
                     {mensagemErro}
                   </div>
                 )}
-                <button
-                  className="confirm-button"
-                  onClick={handlePaymentCheckout}
-                >
+                <button className="confirm-button" onClick={handlePaymentCheckout}>
                   Prosseguir para o Pagamento
                 </button>
               </div>
@@ -269,4 +240,3 @@ export const ReservaPage = () => {
 };
 
 export default ReservaPage;
-

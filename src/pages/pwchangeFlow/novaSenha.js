@@ -1,49 +1,49 @@
 import "./novaSenha.css";
 import homeimg from "../../assets/Home.svg";
-import logo from '../../assets/logo.svg';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import logo from "../../assets/logo.svg";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 function NovaSenha() {
   const navigate = useNavigate();
   const location = useLocation();
-  const email = location.state?.email || '';
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const email = location.state?.email || "";
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage('');
+    setMessage("");
 
     if (!password || !confirmPassword) {
-      setMessage('Preencha todos os campos.');
+      setMessage("Preencha todos os campos.");
       return;
     }
 
     if (password !== confirmPassword) {
-      setMessage('As senhas não coincidem.');
+      setMessage("As senhas não coincidem.");
       return;
     }
 
     setLoading(true);
     try {
-      const response = await fetch('https://hotel-brasileiro-back-1.onrender.com/api/clientes/update-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("https://hotel-brasileiro-back-1.onrender.com/api/clientes/update-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
       if (response.ok && data.success) {
-        navigate('/login');
+        navigate("/login");
       } else {
-        setMessage(data.message || 'Erro ao atualizar senha.');
+        setMessage(data.message || "Erro ao atualizar senha.");
       }
     } catch (err) {
-      setMessage('Erro de conexão. Tente novamente.');
+      setMessage("Erro de conexão. Tente novamente.");
     } finally {
       setLoading(false);
     }
@@ -54,7 +54,7 @@ function NovaSenha() {
       <div className="left-panel">
         <div className="logo-title-row">
           <div className="logo">
-            <img className='logo-img-login' src={logo} alt="Logo" />
+            <img className="logo-img-login" src={logo} alt="Logo" />
           </div>
           <h1>
             Hotel <br /> Brasileiro
@@ -72,7 +72,7 @@ function NovaSenha() {
 
           <div className="input-group">
             <label>Digite sua nova senha:</label>
-            <div className="password-input" style={{ display: 'flex', alignItems: 'center' }}>
+            <div className="password-input" style={{ display: "flex", alignItems: "center" }}>
               <input
                 type="password"
                 value={password}
@@ -85,7 +85,7 @@ function NovaSenha() {
 
           <div className="input-group">
             <label>Confirme sua nova senha:</label>
-            <div className="password-input" style={{ display: 'flex', alignItems: 'center' }}>
+            <div className="password-input" style={{ display: "flex", alignItems: "center" }}>
               <input
                 type="password"
                 value={confirmPassword}
@@ -97,14 +97,16 @@ function NovaSenha() {
           </div>
 
           {message && (
-            <div style={{ color: 'red', fontSize: '0.95rem', marginTop: '12px', textAlign: 'center' }}>{message}</div>
+            <div style={{ color: "red", fontSize: "0.95rem", marginTop: "12px", textAlign: "center" }}>{message}</div>
           )}
 
-          <button type="submit" className="submit-button" disabled={loading}>{loading ? 'Redefinindo...' : 'Redefinir senha'}</button>
+          <button type="submit" className="submit-button" disabled={loading}>
+            {loading ? "Redefinindo..." : "Redefinir senha"}
+          </button>
 
           <div className="back-home">
             <p>Volte para o início</p>
-            <img className="home-icon" src={homeimg} alt="Home" onClick={() => navigate('/')} />
+            <img className="home-icon" src={homeimg} alt="Home" onClick={() => navigate("/")} />
           </div>
         </form>
       </div>

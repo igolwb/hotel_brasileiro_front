@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import useApiStore from '../../../services/web-api.js';
-import { useNavigate } from 'react-router-dom';
-import useAuthAdmin from '../../../hooks/adminAuth.js';
-import './formQuarto.css';
+import React, { useState } from "react";
+import useApiStore from "../../../services/web-api.js";
+import { useNavigate } from "react-router-dom";
+import useAuthAdmin from "../../../hooks/adminAuth.js";
+import "./formQuarto.css";
 
 // Componente para adicionar um novo quarto
 function AddQuarto() {
@@ -14,17 +14,17 @@ function AddQuarto() {
 
   // Estado do formulário do quarto
   const [form, setForm] = useState({
-    nome: '',
-    descricao: '',
-    preco: '',
-    quantidade: '',
-    imagem_url: ''
+    nome: "",
+    descricao: "",
+    preco: "",
+    quantidade: "",
+    imagem_url: "",
   });
 
   // Atualiza o estado do formulário ao digitar nos campos
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   // Envia o formulário para criar um novo quarto
@@ -32,12 +32,12 @@ function AddQuarto() {
     e.preventDefault();
     try {
       await createQuarto(form, authHeader);
-      navigate('/admin/quartos');
+      navigate("/admin/quartos");
     } catch (error) {
-      alert('Erro ao criar o quarto. Tente novamente.');
+      alert("Erro ao criar o quarto. Tente novamente.");
     }
   };
-  
+
   return (
     <div className="editar-quarto-container">
       <h1 className="editar-quarto-title">Adicionar Quarto</h1>
@@ -101,16 +101,12 @@ function AddQuarto() {
           <button
             type="button"
             className="editar-quarto-cancelar"
-            onClick={() => navigate('/admin/quartos')}
+            onClick={() => navigate("/admin/quartos")}
             disabled={loading}
           >
             Cancelar
           </button>
-          <button
-            type="submit"
-            className="editar-quarto-salvar"
-            disabled={loading}
-          >
+          <button type="submit" className="editar-quarto-salvar" disabled={loading}>
             Salvar
           </button>
         </div>

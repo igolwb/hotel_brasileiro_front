@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import useApiStore from '../../../services/web-api.js';
-import { useNavigate, useParams } from 'react-router-dom';
-import useAuthAdmin from '../../../hooks/adminAuth.js';
-import './formQuarto.css';
+import React, { useEffect, useState } from "react";
+import useApiStore from "../../../services/web-api.js";
+import { useNavigate, useParams } from "react-router-dom";
+import useAuthAdmin from "../../../hooks/adminAuth.js";
+import "./formQuarto.css";
 
 // Componente para editar um quarto existente
 function EditarQuarto() {
@@ -15,11 +15,11 @@ function EditarQuarto() {
 
   // Estado do formulário do quarto
   const [form, setForm] = useState({
-    nome: '',
-    descricao: '',
-    preco: '',
-    quantidade: '',
-    imagem_url: ''
+    nome: "",
+    descricao: "",
+    preco: "",
+    quantidade: "",
+    imagem_url: "",
   });
 
   // Busca os dados do quarto ao carregar o componente
@@ -28,21 +28,21 @@ function EditarQuarto() {
       const data = await getQuartoById(id, authHeader);
       if (data) {
         setForm({
-          nome: data.nome || '',
-          descricao: data.descricao || '',
-          preco: data.preco || '',
-          quantidade: data.quantidade || '',
-          imagem_url: data.imagem_url || ''
+          nome: data.nome || "",
+          descricao: data.descricao || "",
+          preco: data.preco || "",
+          quantidade: data.quantidade || "",
+          imagem_url: data.imagem_url || "",
         });
       }
     }
-    if(authUser) fetchData();
+    if (authUser) fetchData();
   }, [id, getQuartoById, authHeader, authUser]);
 
   // Atualiza o estado do formulário ao digitar nos campos
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   // Envia o formulário para atualizar o quarto
@@ -50,9 +50,9 @@ function EditarQuarto() {
     e.preventDefault();
     try {
       await updateQuarto(id, form, authHeader);
-      navigate('/admin/quartos');
+      navigate("/admin/quartos");
     } catch (error) {
-      alert('Erro ao salvar as alterações. Tente novamente.');
+      alert("Erro ao salvar as alterações. Tente novamente.");
     }
   };
   return (
@@ -118,16 +118,12 @@ function EditarQuarto() {
           <button
             type="button"
             className="editar-quarto-cancelar"
-            onClick={() => navigate('/admin/quartos')}
+            onClick={() => navigate("/admin/quartos")}
             disabled={loading}
           >
             Cancelar
           </button>
-          <button
-            type="submit"
-            className="editar-quarto-salvar"
-            disabled={loading}
-          >
+          <button type="submit" className="editar-quarto-salvar" disabled={loading}>
             Salvar
           </button>
         </div>

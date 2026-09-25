@@ -1,15 +1,15 @@
 import "./emailcode.css";
 import homeimg from "../../assets/Home.svg";
-import logo from '../../assets/logo.svg';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import logo from "../../assets/logo.svg";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 function EmailCode() {
   const navigate = useNavigate();
   const location = useLocation();
-  const email = location.state?.email || '';
-  const [code, setCode] = useState(['', '', '', '']);
-  const [message, setMessage] = useState('');
+  const email = location.state?.email || "";
+  const [code, setCode] = useState(["", "", "", ""]);
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleChange = (index, value) => {
@@ -24,19 +24,16 @@ function EmailCode() {
     setMessage("");
     setLoading(true);
     try {
-      const response = await fetch(
-        "https://hotel-brasileiro-back-1.onrender.com/api/clientes/send-token",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        }
-      );
+      const response = await fetch("https://hotel-brasileiro-back-1.onrender.com/api/clientes/send-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
 
       const data = await response.json();
 
-        if (response.ok && data.success) {
-        navigate('/novaSenha', { state: { email } });
+      if (response.ok && data.success) {
+        navigate("/novaSenha", { state: { email } });
       } else {
         setMessage(data.message || "Erro ao reenviar código.");
       }
@@ -53,14 +50,11 @@ function EmailCode() {
 
     setLoading(true);
     try {
-      const response = await fetch(
-        "https://hotel-brasileiro-back-1.onrender.com/api/clientes/send-token",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        }
-      );
+      const response = await fetch("https://hotel-brasileiro-back-1.onrender.com/api/clientes/send-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
 
       const data = await response.json();
 
@@ -82,7 +76,7 @@ function EmailCode() {
       <div className="left-panel">
         <div className="logo-title-row">
           <div className="logo">
-            <img className='logo-img-login' src={logo} alt="Logo" />
+            <img className="logo-img-login" src={logo} alt="Logo" />
           </div>
           <h1>
             Hotel <br /> Brasileiro
@@ -112,16 +106,25 @@ function EmailCode() {
             ))}
           </div>
 
-          <button type="button" className="resend-button" onClick={handleResend} disabled={loading}>{loading ? 'Enviando...' : 'Reenviar código'}</button>
-          <button type="submit" className="submit-button" disabled={loading}>{loading ? 'Verificando...' : 'Enviar'}</button>
+          <button type="button" className="resend-button" onClick={handleResend} disabled={loading}>
+            {loading ? "Enviando..." : "Reenviar código"}
+          </button>
+          <button type="submit" className="submit-button" disabled={loading}>
+            {loading ? "Verificando..." : "Enviar"}
+          </button>
 
           {message && (
-            <div className="message" style={{ color: 'red', fontSize: '0.95rem', marginTop: '12px', textAlign: 'center' }}>{message}</div>
+            <div
+              className="message"
+              style={{ color: "red", fontSize: "0.95rem", marginTop: "12px", textAlign: "center" }}
+            >
+              {message}
+            </div>
           )}
 
           <div className="back-home">
             <p>Volte para o início</p>
-            <img className="home-icon" src={homeimg} alt="Home" onClick={() => navigate('/')} />
+            <img className="home-icon" src={homeimg} alt="Home" onClick={() => navigate("/")} />
           </div>
         </form>
       </div>

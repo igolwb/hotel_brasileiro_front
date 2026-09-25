@@ -1,6 +1,6 @@
-import logo from '../../assets/logo.svg';
-import './adminheader.css';
-import { useNavigate } from 'react-router-dom';
+import logo from "../../assets/logo.svg";
+import "./adminheader.css";
+import { useNavigate } from "react-router-dom";
 
 const AdminHeader = () => {
   const navigate = useNavigate();
@@ -16,11 +16,21 @@ const AdminHeader = () => {
           </div>
         </div>
         <nav className="nav-linksa">
-          <span className="nav-linka" onClick={() => navigate('/')}>Início</span>
-          <span className="nav-linka" onClick={() => navigate('/admin/clientes')}>Clientes</span>
-          <span className="nav-linka" onClick={() => navigate('/admin/quartos')}>Quartos</span>
-          <span className="nav-linka" onClick={() => navigate('/admin/reservas')}>Reservas</span>
-          <span className="nav-linka" onClick={() => navigate('/admin/estatisticas')}>Estatisticas</span>
+          <span className="nav-linka" onClick={() => navigate("/")}>
+            Início
+          </span>
+          <span className="nav-linka" onClick={() => navigate("/admin/clientes")}>
+            Clientes
+          </span>
+          <span className="nav-linka" onClick={() => navigate("/admin/quartos")}>
+            Quartos
+          </span>
+          <span className="nav-linka" onClick={() => navigate("/admin/reservas")}>
+            Reservas
+          </span>
+          <span className="nav-linka" onClick={() => navigate("/admin/estatisticas")}>
+            Estatisticas
+          </span>
         </nav>
       </div>
     </header>

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import useApiStore from '../../../services/web-api.js';
-import { useNavigate, useParams } from 'react-router-dom';
-import useAuthAdmin from '../../../hooks/adminAuth.js';
-import './formReserva.css';
+import React, { useEffect, useState } from "react";
+import useApiStore from "../../../services/web-api.js";
+import { useNavigate, useParams } from "react-router-dom";
+import useAuthAdmin from "../../../hooks/adminAuth.js";
+import "./formReserva.css";
 
 // Componente para editar uma reserva existente
 function EditarReserva() {
@@ -28,21 +28,21 @@ function EditarReserva() {
   const confirmarExclusao = async () => {
     try {
       await deleteReserva(id, authHeader);
-      navigate('/admin/reservas');
+      navigate("/admin/reservas");
     } catch (error) {
-      console.error('Erro ao excluir reserva:', error);
-      alert('Não foi possível excluir a reserva. Tente novamente.');
+      console.error("Erro ao excluir reserva:", error);
+      alert("Não foi possível excluir a reserva. Tente novamente.");
     }
     fecharModal();
   };
 
   // Estado do formulário da reserva
   const [form, setForm] = useState({
-    quarto_id: '',
-    cliente_id: '',
-    hospedes: '',
-    inicio: '',
-    fim: ''
+    quarto_id: "",
+    cliente_id: "",
+    hospedes: "",
+    inicio: "",
+    fim: "",
   });
 
   // Busca os dados da reserva ao carregar o componente
@@ -51,11 +51,11 @@ function EditarReserva() {
       const data = await getReservaById(id);
       if (data) {
         setForm({
-          quarto_id: data.quarto_id || '',
-          cliente_id: data.cliente_id || '',
-          hospedes: data.hospedes || '',
-          inicio: data.inicio ? data.inicio.slice(0, 10) : '',
-          fim: data.fim ? data.fim.slice(0, 10) : ''
+          quarto_id: data.quarto_id || "",
+          cliente_id: data.cliente_id || "",
+          hospedes: data.hospedes || "",
+          inicio: data.inicio ? data.inicio.slice(0, 10) : "",
+          fim: data.fim ? data.fim.slice(0, 10) : "",
         });
       }
     }
@@ -67,7 +67,7 @@ function EditarReserva() {
     const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -76,10 +76,10 @@ function EditarReserva() {
     e.preventDefault();
     try {
       await updateReserva(id, form, authHeader);
-      navigate('/admin/reservas');
+      navigate("/admin/reservas");
     } catch (error) {
-      console.error('Erro ao salvar as alterações:', error);
-      alert('Não foi possível salvar as alterações. Tente novamente.');
+      console.error("Erro ao salvar as alterações:", error);
+      alert("Não foi possível salvar as alterações. Tente novamente.");
     }
   };
 
@@ -146,40 +146,39 @@ function EditarReserva() {
           <button
             type="button"
             className="editar-reserva-cancelar"
-            onClick={() => navigate('/admin/reservas')}
+            onClick={() => navigate("/admin/reservas")}
             disabled={loading}
           >
             Cancelar
           </button>
 
-                    <button
+          <button
             type="button"
             className="editar-reserva-excluir"
             onClick={abrirModal}
             disabled={loading}
-            style={{ marginLeft: '10px', background: '#bd1b15ff', color: 'white' }}
+            style={{ marginLeft: "10px", background: "#bd1b15ff", color: "white" }}
           >
             Excluir Reserva
           </button>
-          
-          <button
-            type="submit"
-            className="editar-reserva-salvar"
-            disabled={loading}
-          >
+
+          <button type="submit" className="editar-reserva-salvar" disabled={loading}>
             Salvar
           </button>
-
         </div>
       </form>
       {showModal && (
         <div className="modal-bg" onClick={fecharModal}>
-          <div className="modal" onClick={e => e.stopPropagation()}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
             <h2>Confirmar Exclusão</h2>
             <p>Deseja realmente excluir esta reserva?</p>
             <div className="modal-actions">
-              <button className="btn-cancel" onClick={fecharModal}>Cancelar</button>
-              <button className="btn-confirm" onClick={confirmarExclusao}>Excluir</button>
+              <button className="btn-cancel" onClick={fecharModal}>
+                Cancelar
+              </button>
+              <button className="btn-confirm" onClick={confirmarExclusao}>
+                Excluir
+              </button>
             </div>
           </div>
         </div>

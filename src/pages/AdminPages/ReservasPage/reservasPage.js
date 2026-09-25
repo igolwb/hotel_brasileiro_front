@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import useApiStore from '../../../services/web-api.js';
-import { useNavigate } from 'react-router-dom';
-import AdminHeader from '../../../components/HeaderAdmin/adminHeader.js';
-import './reservasPage.css';
-import tabler_edit from '../../../assets/tabler_edit.svg';
-import useAuthAdmin from '../../../hooks/adminAuth.js';
+import React, { useEffect, useState } from "react";
+import useApiStore from "../../../services/web-api.js";
+import { useNavigate } from "react-router-dom";
+import AdminHeader from "../../../components/HeaderAdmin/adminHeader.js";
+import "./reservasPage.css";
+import tabler_edit from "../../../assets/tabler_edit.svg";
+import useAuthAdmin from "../../../hooks/adminAuth.js";
 
 const RESERVAS_PER_PAGE = 10;
 
@@ -13,15 +13,10 @@ function AdminReservas() {
   // Hook customizado para autenticação de admin
   const { authUser, authHeader } = useAuthAdmin();
   // Hooks e métodos da store de API para reservas
-  const {
-    reservas,
-    loading,
-    fetchReservas,
-  } = useApiStore();
+  const { reservas, loading, fetchReservas } = useApiStore();
 
   // Estado para controlar a página atual da paginação
   const [currentPage, setCurrentPage] = useState(1);
-
 
   const navigate = useNavigate();
 
@@ -42,16 +37,15 @@ function AdminReservas() {
   // Calcula o total de páginas para a paginação
   const totalPages = Math.ceil(reservas.length / RESERVAS_PER_PAGE);
 
-
   // Calcula quantas linhas vazias preencher para manter a tabela alinhada
   const linhasVazias = Math.max(0, RESERVAS_PER_PAGE - currentReservas.length);
 
   // Função utilitária para formatar datas no formato dd/mm/yyyy
   function formatarData(dataStr) {
-    if (!dataStr) return '';
+    if (!dataStr) return "";
     const data = new Date(dataStr);
-    const dia = String(data.getDate()).padStart(2, '0');
-    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const dia = String(data.getDate()).padStart(2, "0");
+    const mes = String(data.getMonth() + 1).padStart(2, "0");
     const ano = data.getFullYear();
     return `${dia}/${mes}/${ano}`;
   }
@@ -77,7 +71,9 @@ function AdminReservas() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={8} style={{ textAlign: 'center' }}>Carregando...</td>
+                <td colSpan={8} style={{ textAlign: "center" }}>
+                  Carregando...
+                </td>
               </tr>
             ) : (
               <>
@@ -89,14 +85,11 @@ function AdminReservas() {
                     <td>{reserva.hospedes}</td>
                     <td>{formatarData(reserva.inicio)}</td>
                     <td>{formatarData(reserva.fim)}</td>
-                    <td>{reserva.preco_total ? `R$ ${Number(reserva.preco_total).toFixed(2)}` : '-'}</td>
+                    <td>{reserva.preco_total ? `R$ ${Number(reserva.preco_total).toFixed(2)}` : "-"}</td>
                     <td>
                       {/* Removido botão de exclusão, agora está na página de edição */}
-                      <button
-                        className="btn-image"
-                        onClick={() => navigate(`/admin/reservas/${reserva.id}`)}
-                      >
-                        <img src={tabler_edit} alt="Editar" style={{ width: 28, height: 28 }}/>
+                      <button className="btn-image" onClick={() => navigate(`/admin/reservas/${reserva.id}`)}>
+                        <img src={tabler_edit} alt="Editar" style={{ width: 28, height: 28 }} />
                       </button>
                     </td>
                   </tr>
@@ -129,7 +122,7 @@ function AdminReservas() {
           {Array.from({ length: totalPages }).map((_, idx) => (
             <button
               key={idx}
-              className={`pagination-btn ${currentPage === idx + 1 ? 'active' : ''}`}
+              className={`pagination-btn ${currentPage === idx + 1 ? "active" : ""}`}
               onClick={() => setCurrentPage(idx + 1)}
             >
               {idx + 1}
@@ -144,14 +137,11 @@ function AdminReservas() {
           </button>
         </div>
 
-        <button
-          className="btn-add"
-          onClick={() => navigate(`/admin/reservas/addReserva`)}
-        >
+        <button className="btn-add" onClick={() => navigate(`/admin/reservas/addReserva`)}>
           Adicionar
         </button>
 
-  {/* Modal de exclusão removido, agora está na página de edição */}
+        {/* Modal de exclusão removido, agora está na página de edição */}
       </div>
     </>
   );

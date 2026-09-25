@@ -1,153 +1,153 @@
 .headera {
-  background-color: #0f2a3e;
-  color: white;
-  padding: 1rem;
-  padding-right: 3rem; 
-  font-family: sans-serif;
-  top: 0;
-  z-index: 100; 
+    background-color: #0f2a3e;
+    color: white;
+    padding: 1rem;
+    padding-right: 3rem;
+    font-family: sans-serif;
+    top: 0;
+    z-index: 100;
 }
 
 .header-containera {
-  max-width: 100%;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .logoa {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .logo-imga {
-  width: 15%;
+    width: 15%;
 
-  padding-right: 1.5rem; 
+    padding-right: 1.5rem;
 }
 
 .logo-texta {
-  font-family: Inter;
-  letter-spacing: 1.5px;
-  font-size: 1.5rem; /* Tamanho relativo */
-  line-height: 1.2;
-  font-weight: bold;
+    font-family: Inter;
+    letter-spacing: 1.5px;
+    font-size: 1.5rem; /* Tamanho relativo */
+    line-height: 1.2;
+    font-weight: bold;
 }
 
 .nav-linksa {
-  display: flex;
-  gap: 1.5rem; /* Espaço entre itens */
-  align-items: center;
+    display: flex;
+    gap: 1.5rem; /* Espaço entre itens */
+    align-items: center;
 }
 
 .nav-linka {
-  background: transparent;
-  border: none;
-  color: #fff;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0.5rem 0;
-  transition: text-decoration 0.2s; 
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    transition: text-decoration 0.2s;
 }
 
 .nav-linka:hover {
-text-decoration: underline;
+    text-decoration: underline;
 }
 
 @media (max-width: 850px) {
-  .logo-texta {
-    font-size: 1rem;
-    line-height: 1.1;
-    letter-spacing: 0.5px;
-  }
-  
-  .nav-linksa {
-    gap: 30px;
-  }
+    .logo-texta {
+        font-size: 1rem;
+        line-height: 1.1;
+        letter-spacing: 0.5px;
+    }
 
-  .nav-linka{
-    font-size: 1rem;
-  }
-  .logo-imga {
-    width: 35px;
-    height: 35px;
-    margin-right: 12px;
-    margin-left: 8px;
-  }
+    .nav-linksa {
+        gap: 30px;
+    }
+
+    .nav-linka {
+        font-size: 1rem;
+    }
+    .logo-imga {
+        width: 35px;
+        height: 35px;
+        margin-right: 12px;
+        margin-left: 8px;
+    }
 }
 
 @media (max-width: 700px) {
-  .logo-texta {
-    font-size: 0.85rem;
-    line-height: 1;
-    letter-spacing: 0.5px;
-  }
-  
-  .nav-linksa {
-    gap: 25px;
-  }
+    .logo-texta {
+        font-size: 0.85rem;
+        line-height: 1;
+        letter-spacing: 0.5px;
+    }
 
-  .nav-linka{
-    font-size: 0.8rem;
-  }
-  .logo-imga {
-    width: 30px;
-    height: 30px;
-    margin-right: 12px;
-    margin-left: 8px;
-  }
+    .nav-linksa {
+        gap: 25px;
+    }
+
+    .nav-linka {
+        font-size: 0.8rem;
+    }
+    .logo-imga {
+        width: 30px;
+        height: 30px;
+        margin-right: 12px;
+        margin-left: 8px;
+    }
 }
 
 @media (max-width: 500px) {
-  .header-containera {
-    padding: 0 0.7rem;
-  }
+    .header-containera {
+        padding: 0 0.7rem;
+    }
 
-  .logo-texta {
-    font-size: 0.75rem;
-    line-height: 1;
-    letter-spacing: 0.5px;
-  }
-  
-  .nav-linksa {
-    gap: 20px;
-  }
+    .logo-texta {
+        font-size: 0.75rem;
+        line-height: 1;
+        letter-spacing: 0.5px;
+    }
 
-  .nav-linka{
-    font-size: 0.7rem;
-  }
-  .logo-imga {
-    width: 28px;
-    height: 28px;
-    margin-right: 12px;
-    margin-left: 8px;
-  }
+    .nav-linksa {
+        gap: 20px;
+    }
+
+    .nav-linka {
+        font-size: 0.7rem;
+    }
+    .logo-imga {
+        width: 28px;
+        height: 28px;
+        margin-right: 12px;
+        margin-left: 8px;
+    }
 }
 
 @media (max-width: 475px) {
-  .header-containera {
-    padding: 0 0.5rem;
-  }
+    .header-containera {
+        padding: 0 0.5rem;
+    }
 
-  .logo-texta {
-    font-size: 0.75rem;
-    line-height: 1;
-    letter-spacing: 0.5px;
-  }
-  
-  .nav-linksa {
-    gap: 15px;
-  }
+    .logo-texta {
+        font-size: 0.75rem;
+        line-height: 1;
+        letter-spacing: 0.5px;
+    }
 
-  .nav-linka{
-    font-size: 0.7rem;
-  }
-  .logo-imga {
-    width: 28px;
-    height: 28px;
-    margin-right: 12px;
-    margin-left: 1px;
-  }
+    .nav-linksa {
+        gap: 15px;
+    }
+
+    .nav-linka {
+        font-size: 0.7rem;
+    }
+    .logo-imga {
+        width: 28px;
+        height: 28px;
+        margin-right: 12px;
+        margin-left: 1px;
+    }
 }

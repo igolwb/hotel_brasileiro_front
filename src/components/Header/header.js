@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import logo from '../../assets/logo.svg';
-import './Header.css';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import logo from "../../assets/logo.svg";
+import "./Header.css";
+import { useNavigate, useLocation } from "react-router-dom";
 
 // Hooks do React Auth Kit
-import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import useSignOut from 'react-auth-kit/hooks/useSignOut';
+import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import useSignOut from "react-auth-kit/hooks/useSignOut";
 
 function Header() {
   const navigate = useNavigate();
@@ -20,10 +20,10 @@ function Header() {
   // Função para rolagem/navegação híbrida
   function handleScrollOrNavigate(id) {
     setIsMenuOpen(false);
-    if (location.pathname === '/') {
+    if (location.pathname === "/") {
       scrollToSection(id);
     } else {
-      navigate('/');
+      navigate("/");
       setTimeout(() => {
         scrollToSection(id);
       }, 100);
@@ -34,7 +34,7 @@ function Header() {
   function scrollToSection(id) {
     const section = document.getElementById(id);
     if (section) {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }
 
@@ -63,37 +63,31 @@ function Header() {
         </div>
 
         {/* Links de navegação */}
-        <nav className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
+        <nav className={`nav-links ${isMenuOpen ? "active" : ""}`}>
           <button
             className="hint1"
             onClick={() => {
               setIsMenuOpen(false);
-              navigate('/');
+              navigate("/");
             }}
           >
             Inicio
           </button>
 
-          <button
-            className="hint1"
-            onClick={() => handleScrollOrNavigate('quartos')}
-          >
+          <button className="hint1" onClick={() => handleScrollOrNavigate("quartos")}>
             Ir para Quartos
           </button>
-          <button
-            className="hint1"
-            onClick={() => handleScrollOrNavigate('experiencias')}
-          >
+          <button className="hint1" onClick={() => handleScrollOrNavigate("experiencias")}>
             Ir para Experiências
           </button>
 
           {/* Botão Clientes para admin */}
-          {isAuthenticated && authUser && authUser.role === 'admin' && (
+          {isAuthenticated && authUser && authUser.role === "admin" && (
             <button
               className="hint1"
               onClick={() => {
                 setIsMenuOpen(false);
-                navigate('/admin/clientes');
+                navigate("/admin/clientes");
               }}
             >
               Admin Dashboard
@@ -107,10 +101,10 @@ function Header() {
                 className="user-menu-button"
                 onClick={() => {
                   setIsMenuOpen(false);
-                  navigate('/minhas-reservas');
+                  navigate("/minhas-reservas");
                 }}
               >
-                {authUser ? 'Menu do Usuário' : 'Usuário'}
+                {authUser ? "Menu do Usuário" : "Usuário"}
               </button>
             </div>
           ) : (
@@ -118,7 +112,7 @@ function Header() {
               className="login-button"
               onClick={() => {
                 setIsMenuOpen(false);
-                navigate('/login');
+                navigate("/login");
               }}
             >
               Faça seu login

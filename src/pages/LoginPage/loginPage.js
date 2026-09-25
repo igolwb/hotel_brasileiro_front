@@ -1,10 +1,10 @@
 import "./LoginPage.css";
 import homeimg from "../../assets/Home.svg";
-import logo from '../../assets/logo.svg';
-import { useNavigate, Link } from 'react-router-dom';
-import useSignIn from 'react-auth-kit/hooks/useSignIn';
-import axios from 'axios';
-import { useState } from 'react';
+import logo from "../../assets/logo.svg";
+import { useNavigate, Link } from "react-router-dom";
+import useSignIn from "react-auth-kit/hooks/useSignIn";
+import axios from "axios";
+import { useState } from "react";
 
 // Componente de página de login do sistema
 function LoginPage() {
@@ -13,40 +13,40 @@ function LoginPage() {
   // Hook de autenticação do react-auth-kit
   const signIn = useSignIn();
   // Estado para email, senha e mensagem de erro
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
 
   // Função para tratar o envio do formulário de login
   const handleLogin = async (e) => {
     e.preventDefault();
-    setErrorMsg('');
+    setErrorMsg("");
     try {
-      const response = await axios.post('https://hotel-brasileiro-back-1.onrender.com/api/login', { email, senha });
+      const response = await axios.post("https://hotel-brasileiro-back-1.onrender.com/api/login", { email, senha });
       if (response.data.success) {
         const ok = signIn({
           auth: {
             token: response.data.token,
-            type: 'Bearer'
+            type: "Bearer",
           },
-          userState: { email, role: response.data.role }
+          userState: { email, role: response.data.role },
         });
         if (ok) {
-          if (response.data.role === 'admin') {
-            navigate('/admin/clientes');
+          if (response.data.role === "admin") {
+            navigate("/admin/clientes");
           } else {
-            navigate('/');
+            navigate("/");
           }
         } else {
-          setErrorMsg('Erro ao salvar autenticação. Tente novamente.');
+          setErrorMsg("Erro ao salvar autenticação. Tente novamente.");
         }
       } else {
-        setErrorMsg('Credenciais inválidas.');
+        setErrorMsg("Credenciais inválidas.");
       }
     } catch (error) {
-      setErrorMsg('Erro ao realizar login. Tente novamente.');
+      setErrorMsg("Erro ao realizar login. Tente novamente.");
     }
   };
 
@@ -55,7 +55,7 @@ function LoginPage() {
       <div className="left-panel">
         <div className="logo-title-row">
           <div className="logo">
-            <img className='logo-img-login' src={logo} alt="Logo" />
+            <img className="logo-img-login" src={logo} alt="Logo" />
           </div>
           <h1>
             Hotel <br /> Brasileiro
@@ -78,36 +78,40 @@ function LoginPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-         <label>Senha</label>
-  <div style={{ display: 'flex', alignItems: 'center' }}>
-    <input
-      type={showPassword ? "text" : "password"}
-      placeholder="Digite sua senha"
-      value={senha}
-      onChange={(e) => setSenha(e.target.value)}
-      required
-      style={{ flex: 1 }}
-    />
-    <button
-      type="button"
-      onClick={() => setShowPassword((prev) => !prev)}
-      style={{ marginLeft: '8px' }}
-      tabIndex={-1}
-    >
-      {showPassword ? "Ocultar" : "Mostrar"}
-    </button>
-  </div>
-          <Link className="hint" to="/recuperar-senha" onClick={() => navigate('/recuperar-senha')}>
+          <label>Senha</label>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Digite sua senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              required
+              style={{ flex: 1 }}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              style={{ marginLeft: "8px" }}
+              tabIndex={-1}
+            >
+              {showPassword ? "Ocultar" : "Mostrar"}
+            </button>
+          </div>
+          <Link className="hint" to="/recuperar-senha" onClick={() => navigate("/recuperar-senha")}>
             esqueceu a sua senha?
           </Link>
           {errorMsg && (
-            <div style={{ color: 'red', fontSize: '0.95rem', marginBottom: '8px', textAlign: 'center' }}>{errorMsg}</div>
+            <div style={{ color: "red", fontSize: "0.95rem", marginBottom: "8px", textAlign: "center" }}>
+              {errorMsg}
+            </div>
           )}
           <button type="submit">Desbloquear estadia</button>
-          <button type="button" onClick={() => navigate('/cadastro')}>fazer cadastro</button>
+          <button type="button" onClick={() => navigate("/cadastro")}>
+            fazer cadastro
+          </button>
           <div className="back-home">
             <p>Volte para o início</p>
-            <img className="home-icon" src={homeimg} alt="Home" onClick={() => navigate('/')} />
+            <img className="home-icon" src={homeimg} alt="Home" onClick={() => navigate("/")} />
           </div>
         </form>
       </div>
