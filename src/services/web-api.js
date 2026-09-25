@@ -288,7 +288,7 @@ const useApiStore = create((set) => ({
   confirmCliente: async (codigo) => {
     set({ loading: true, error: null });
     try {
-      const response = await axios.post(`${URL}/api/clientes/confirm`, { confirmationCode: codigo });
+      const response = await axios.post(`${URL}/api/clientes/confirm`, codigo);
       set({ loading: false });
       return response.data;
     } catch (error) {
