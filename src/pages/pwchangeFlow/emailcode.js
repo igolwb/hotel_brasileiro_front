@@ -4,6 +4,8 @@ import logo from "../../assets/logo.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 
+const URL = "http://localhost:3001";
+
 function EmailCode() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,7 +26,7 @@ function EmailCode() {
     setMessage("");
     setLoading(true);
     try {
-      const response = await fetch("https://hotel-brasileiro-back-1.onrender.com/api/clientes/send-token", {
+      const response = await fetch(`${URL}/api/clientes/send-token`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -50,7 +52,7 @@ function EmailCode() {
 
     setLoading(true);
     try {
-      const response = await fetch("https://hotel-brasileiro-back-1.onrender.com/api/clientes/send-token", {
+      const response = await fetch(`${URL}/api/clientes/send-token`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 
-const URL = "https://hotel-brasileiro-back-1.onrender.com"; // Ajuste para o endpoint da sua API
+const URL = "http://localhost:3001";
 
 const useApiStore = create((set) => ({
   clientes: [],

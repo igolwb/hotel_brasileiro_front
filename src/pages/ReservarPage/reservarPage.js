@@ -4,6 +4,8 @@ import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import "./ReservarPage.css";
 
+const URL = "http://localhost:3001";
+
 export const ReservaPage = () => {
   const { roomId } = useParams();
   const [selectedRoom, setSelectedRoom] = useState(null);
@@ -40,7 +42,7 @@ export const ReservaPage = () => {
 
   // 🔎 Busca dados do quarto
   useEffect(() => {
-    fetch(`https://hotel-brasileiro-back-1.onrender.com/api/quartos/${roomId}`)
+    fetch(`${URL}/api/quartos/${roomId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data) setSelectedRoom(data.data);
@@ -73,7 +75,7 @@ export const ReservaPage = () => {
 
     try {
       // Step 1: Create reservation in the database
-      const res = await fetch("https://hotel-brasileiro-back-1.onrender.com/api/reservas", {
+      const res = await fetch(`${URL}/api/reservas`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -117,7 +119,7 @@ export const ReservaPage = () => {
         failure: `${window.location.origin}/reserva/erro`,
       };
 
-      const paymentRes = await fetch("https://hotel-brasileiro-back-1.onrender.com/api/payments/create-checkout", {
+      const paymentRes = await fetch(`${URL}/api/payments/create-checkout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

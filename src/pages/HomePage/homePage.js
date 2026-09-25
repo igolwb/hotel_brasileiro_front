@@ -11,6 +11,8 @@ import hora4 from "../../assets/hora4.svg";
 import hora5 from "../../assets/hora5.svg";
 import linha4 from "../../assets/linha4.svg";
 
+const URL = "http://localhost:3001";
+
 const settings = {
   dots: true,
   infinite: true,
@@ -65,7 +67,7 @@ const HomePage = () => {
 
   // Busca os quartos do backend ao carregar a página
   useEffect(() => {
-    fetch("https://hotel-brasileiro-back-1.onrender.com/api/quartos")
+    fetch(`${URL}/api/quartos`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data) setRooms(data.data);

@@ -6,6 +6,8 @@ import useSignIn from "react-auth-kit/hooks/useSignIn";
 import axios from "axios";
 import { useState } from "react";
 
+const URL = "http://localhost:3001";
+
 // Componente de página de login do sistema
 function LoginPage() {
   // Hook de navegação do React Router
@@ -24,7 +26,7 @@ function LoginPage() {
     e.preventDefault();
     setErrorMsg("");
     try {
-      const response = await axios.post("https://hotel-brasileiro-back-1.onrender.com/api/login", { email, senha });
+      const response = await axios.post(`${URL}/api/login`, { email, senha });
       if (response.data.success) {
         const ok = signIn({
           auth: {

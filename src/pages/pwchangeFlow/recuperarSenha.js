@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios"; // Import Axios
 
+const URL = "http://localhost:3001";
+
 function RecuperarSenha() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -22,7 +24,7 @@ function RecuperarSenha() {
 
     setLoading(true);
     try {
-      const response = await axios.post("https://hotel-brasileiro-back-1.onrender.com/api/clientes/send-token", {
+      const response = await axios.post(`${URL}/api/clientes/send-token`, {
         email,
       });
 
