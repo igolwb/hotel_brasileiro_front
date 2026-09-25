@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useApiStore from '../../../services/web-api.js';
-import AdminHeader from '../HeaderAdmin/adminHeader.js';
+import AdminHeader from '../../../components/HeaderAdmin/adminHeader.js';
 import { useNavigate } from 'react-router-dom';
 import useAuthAdmin from '../../../hooks/adminAuth.js';
 import './clientePage.css';
@@ -77,7 +77,7 @@ function Clientes() {
 
         <h1 className="clientes-title">Clientes</h1>
 
-        <input type="text" value={search} onChange={e => setSearch(e.target.value)} 
+        <input type="text" value={search} onChange={e => setSearch(e.target.value)}
         className="clientes-search-box" placeholder="Buscar por ID ou Email"/>
 
         <table className="clientes-table">

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useApiStore from '../../../services/web-api.js';
 import { useNavigate } from 'react-router-dom';
-import AdminHeader from '../HeaderAdmin/adminHeader.js';
+import AdminHeader from '../../../components/HeaderAdmin/adminHeader.js';
 import useAuthAdmin from '../../../hooks/adminAuth.js';
 import './quartoPage.css';
 import tabler_edit from '../../../assets/tabler_edit.svg';
@@ -109,11 +109,11 @@ function Quartos() {
                     <td>{quarto.preco}</td>
                     <td>{quarto.quantidade}</td>
                     <td>
-                      <button 
+                      <button
                       className="btn-trash" onClick={() => abrirModal(quarto)}>
                          <img src={delete_btn} alt="Excluir" style={{ width: 28, height: 28 }}/>
                       </button>
-                      <button 
+                      <button
                       className="btn-image" onClick={() => navigate(`/admin/quartos/${quarto.id}`)}>
                         <img src={tabler_edit} alt="Editar" style={{ width: 28, height: 28 }}/>
                       </button>
@@ -138,7 +138,7 @@ function Quartos() {
 
         {/* Paginação */}
         <div className="pagination">
-          <button className="pagination-btn" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} 
+          <button className="pagination-btn" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}>Anterior
           </button>
           {Array.from({ length: totalPages }).map((_, idx) => (

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './reservaGraphs.css';
 import useAuthAdmin from '../../../hooks/adminAuth';
 import useApiStore from '../../../services/web-api.js';
-import AdminHeader from '../HeaderAdmin/adminHeader.js';
+import AdminHeader from '../../../components/HeaderAdmin/adminHeader.js';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -135,7 +135,7 @@ const ReservaGraphs = () => {
   if (!monthlyData.length) return <div>Nenhum dado disponível.</div>;
 
   return (
-    
+
     <div>
       <AdminHeader />
       <p className="titulo-graph">Visualização Mensais</p>
@@ -164,7 +164,7 @@ const ReservaGraphs = () => {
 
         </div>
         <div className="reserva-graphs-chart">
-          <Line data={data} options={options} />  
+          <Line data={data} options={options} />
         </div>
 
       </div>

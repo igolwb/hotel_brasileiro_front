@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useApiStore from '../../../services/web-api.js';
 import { useNavigate } from 'react-router-dom';
-import AdminHeader from '../HeaderAdmin/adminHeader.js';
+import AdminHeader from '../../../components/HeaderAdmin/adminHeader.js';
 import './reservasPage.css';
 import tabler_edit from '../../../assets/tabler_edit.svg';
 import useAuthAdmin from '../../../hooks/adminAuth.js';
@@ -21,7 +21,7 @@ function AdminReservas() {
 
   // Estado para controlar a página atual da paginação
   const [currentPage, setCurrentPage] = useState(1);
-  
+
 
   const navigate = useNavigate();
 
@@ -92,8 +92,8 @@ function AdminReservas() {
                     <td>{reserva.preco_total ? `R$ ${Number(reserva.preco_total).toFixed(2)}` : '-'}</td>
                     <td>
                       {/* Removido botão de exclusão, agora está na página de edição */}
-                      <button 
-                        className="btn-image" 
+                      <button
+                        className="btn-image"
                         onClick={() => navigate(`/admin/reservas/${reserva.id}`)}
                       >
                         <img src={tabler_edit} alt="Editar" style={{ width: 28, height: 28 }}/>
@@ -119,9 +119,9 @@ function AdminReservas() {
         </table>
 
         <div className="pagination">
-          <button 
-            className="pagination-btn" 
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} 
+          <button
+            className="pagination-btn"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
           >
             Anterior
@@ -135,8 +135,8 @@ function AdminReservas() {
               {idx + 1}
             </button>
           ))}
-          <button 
-            className="pagination-btn" 
+          <button
+            className="pagination-btn"
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
           >
@@ -144,8 +144,8 @@ function AdminReservas() {
           </button>
         </div>
 
-        <button 
-          className="btn-add" 
+        <button
+          className="btn-add"
           onClick={() => navigate(`/admin/reservas/addReserva`)}
         >
           Adicionar

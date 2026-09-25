@@ -1,22 +1,22 @@
 import { Routes, Route } from 'react-router-dom';
-import HomePage from '../components/HomePage/homePage.js';
-import LoginPage from '../components/LoginPage/loginPage.js';
-import CadastroPage from '../components/CadastroPage/cadastroPage.js';
-import ReservaPage from '../components/ReservarPage/reservarPage.js';
-import Clientes from '../components/AdminPages/ClientePage/clientePage.js';
-import Quartos from '../components/AdminPages/QuartoPage/quartoPage.js';
-import EditarQuarto from '../components/AdminPages/EditarQuarto/editQuarto.js';
-import AddQuarto from '../components/AdminPages/EditarQuarto/addQuarto.js';
-import AdminReservas from '../components/AdminPages/ReservasPage/reservasPage.js';
-import EditarReserva from '../components/AdminPages/EditarReserva/editReserva.js';
-import AddReserva from '../components/AdminPages/EditarReserva/addReserva.js';
-import MinhasReservas from '../components/MenuUser/menuUser.js';
-import SuccessPage from '../components/ReservaConcluida/successPage.js';
-import ReservaGraphs from '../components/AdminPages/ReservaGraphs/reservaGraphs.js';
-import RecuperarSenha from '../components/pwchangeFlow/recuperarSenha.js';
-import EmailCode from '../components/pwchangeFlow/emailcode.js';
-import NovaSenha from '../components/pwchangeFlow/novaSenha.js';
-import ConfirmacaoPage from '../components/CadastroPage/ConfirmacaoPage.js'; // Importando a nova página de confirmação
+import HomePage from '../pages/HomePage/homePage.js';
+import LoginPage from '../pages/LoginPage/loginPage.js';
+import CadastroPage from '../pages/CadastroPage/cadastroPage.js';
+import ReservaPage from '../pages/ReservarPage/reservarPage.js';
+import Clientes from '../pages/AdminPages/ClientePage/clientePage.js';
+import Quartos from '../pages/AdminPages/QuartoPage/quartoPage.js';
+import EditarQuarto from '../pages/AdminPages/EditarQuarto/editQuarto.js';
+import AddQuarto from '../pages/AdminPages/EditarQuarto/addQuarto.js';
+import AdminReservas from '../pages/AdminPages/ReservasPage/reservasPage.js';
+import EditarReserva from '../pages/AdminPages/EditarReserva/editReserva.js';
+import AddReserva from '../pages/AdminPages/EditarReserva/addReserva.js';
+import MinhasReservas from '../pages/MenuUser/menuUser.js';
+import SuccessPage from '../pages/ReservaConcluida/successPage.js';
+import ReservaGraphs from '../pages/AdminPages/ReservaGraphs/reservaGraphs.js';
+import RecuperarSenha from '../pages/pwchangeFlow/recuperarSenha.js';
+import EmailCode from '../pages/pwchangeFlow/emailcode.js';
+import NovaSenha from '../pages/pwchangeFlow/novaSenha.js';
+import ConfirmacaoPage from '../pages/CadastroPage/ConfirmacaoPage.js'; // Importando a nova página de confirmação
 
 
 function AppRoutes() {
@@ -34,7 +34,7 @@ function AppRoutes() {
       <Route path="/confirmacao" element={<ConfirmacaoPage />} /> {/* Rota para a página de confirmação */}
 
       {/* Rotas de Admin */}
-      
+
       <Route path="/admin/clientes" element={<Clientes />} />
 
       <Route path="/admin/quartos" element={<Quartos />} />
